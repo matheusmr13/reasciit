@@ -1,0 +1,30 @@
+{
+  "name": "ascomjs",
+  "version": "1.0.0",
+  "description": "ASCII documents with simple DOM anottations.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matheusmr13/ascomjs.git"
+  },
+  "keywords": [
+    "ascii",
+    "dom",
+    "js",
+    "node",
+    "invoice",
+    "receipt"
+  ],
+  "author": "matheusmr13",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matheusmr13/ascomjs/issues"
+  },
+  "homepage": "https://github.com/matheusmr13/ascomjs#readme",
+  "devDependencies": {
+    "jest": "^22.4.4"
+  }
+}
