@@ -2,16 +2,39 @@
 const prepend = (str, qtt, char = ' ') => `${Array(qtt).fill(char).join('')}${str}`;
 const pospend = (str, qtt, char = ' ') => `${str}${Array(qtt).fill(char).join('')}`;
 
-const breakLines = (matrix, width) => {
+const breakLines = (matrix, width, breakAll) => {
   let newMatrix = [];
 
-  matrix.forEach((line) => {
-    const parts = Math.ceil(line.length / width);
-    const newLines = Array(parts)
-      .fill('')
-      .map((item, index) => line.slice(index * width, (index + 1) * width));
-    newMatrix = newMatrix.concat(newLines);
-  });
+  if (breakAll) {
+    matrix.forEach((line) => {
+      const parts = Math.ceil(line.length / width);
+      const newLines = Array(parts)
+        .fill('')
+        .map((item, index) => line.slice(index * width, (index + 1) * width));
+      newMatrix = newMatrix.concat(newLines);
+    });
+  } else {
+    matrix.forEach((line) => {
+      let lastSpaceIndex = 0;
+      let lastLineBegining = 0;
+      let charCountPerLine = 0;
+      line.forEach((char, index) => {
+        if (char === ' ') {
+          lastSpaceIndex = index;
+        }
+        if (index && charCountPerLine % width === 0) {
+          newMatrix.push(line.slice(lastLineBegining, lastSpaceIndex));
+          lastLineBegining = lastSpaceIndex + 1;
+          charCountPerLine = width % lastSpaceIndex;
+        }
+        charCountPerLine += 1;
+      });
+
+      if (lastLineBegining !== line.length) {
+        newMatrix.push(line.slice(lastLineBegining, line.length));
+      }
+    });
+  }
   return newMatrix;
 };
 
@@ -92,7 +115,7 @@ class Style {
     let matrixStyled = matrix;
     if (style.display === 'block') {
       
-      matrixStyled = breakLines(matrixStyled, width);
+      matrixStyled = breakLines(matrixStyled, width, style.wordWrap === 'break-all');
 
       if (style.textAlign === 'center') {
         matrixStyled = matrixStyled.map(line => {
