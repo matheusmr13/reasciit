@@ -1,4 +1,5 @@
 const fs = require('fs');
+const Element = require('./elements/Element');
 
 class Ascom {
   constructor(columns) {
@@ -6,6 +7,9 @@ class Ascom {
   }
 
   static render(element, window) {
+    if (!(element instanceof Element)) {
+      throw new Error('You must pass and element to render');
+    }
     return element.render({
       width: window.columns
     }).map(line => line.join('')).join('\n');

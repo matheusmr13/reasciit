@@ -18,104 +18,96 @@ const breakLines = (matrix, width, breakAll) => {
       let lastSpaceIndex = 0;
       let lastLineBegining = 0;
       let charCountPerLine = 0;
+      let ignoreNextSpace = false;
       line.forEach((char, index) => {
+        if (ignoreNextSpace) {
+          ignoreNextSpace = false;
+          return;
+        }
+
+        charCountPerLine = index - lastLineBegining;
+
         if (char === ' ') {
           lastSpaceIndex = index;
         }
-        if (index && charCountPerLine % width === 0) {
+
+        const isLastChar = index === (line.length - 1);
+        const shouldBreak = charCountPerLine && charCountPerLine === (width - 1);
+        const shouldBreakCauseNextIsSpace = (shouldBreak && line[index + 1] === ' ');
+
+        if (isLastChar || shouldBreakCauseNextIsSpace) {
+          lastSpaceIndex = index + 1;
+          ignoreNextSpace = true;
           newMatrix.push(line.slice(lastLineBegining, lastSpaceIndex));
           lastLineBegining = lastSpaceIndex + 1;
-          charCountPerLine = width % lastSpaceIndex;
+        } else if (shouldBreak) {
+          newMatrix.push(line.slice(lastLineBegining, lastSpaceIndex));
+          lastLineBegining = lastSpaceIndex + 1;
         }
-        charCountPerLine += 1;
       });
 
-      if (lastLineBegining !== line.length) {
-        newMatrix.push(line.slice(lastLineBegining, line.length));
-      }
+      // if (lastLineBegining !== line.length) {
+      //   newMatrix.push(line.slice(lastLineBegining, line.length));
+      // }
     });
   }
   return newMatrix;
 };
 
+const mergeMatrix = (dest, origin, x, y) => {
+  for(let i = x, xOrigin = 0; xOrigin < origin.length; i++, xOrigin++) {
+    for(let j = y, yOrigin = 0; yOrigin < origin[0].length; j++, yOrigin++) {
+      dest[i] = dest[i] || [];
+      dest[i][j] = origin[xOrigin][yOrigin];
+    }
+  }
+}
+
+const completeBlock = (matrix, x, y, xL, yL) => {
+  for(let i = x; i < xL; i++) {
+    for(let j = y; j < yL; j++) {
+      matrix[i][j] = ' ';
+    }
+  }
+}
+
+const completeBlockBasedOnFirstLine = (matrix) => {
+  for(let i = 0; i < matrix.length; i++) {
+    for(let j = 0; j < matrix[0].length; j++) {
+      matrix[i][j] = matrix[i][j] || ' ';
+    }
+  }
+}
+
 class Style {
-  constructor(parentStyle, componentStyle) {
-    this.parent = parentStyle || {};
-    this.component = componentStyle;
-  }
-
-  computeArray(...args) {
-    const parentWidth = this.parent.width - this.parent.paddingLeft;
-    const { length: elementQtt } = args;
-    if (elementQtt > 2) {
-      throw new Error('Not implemented');
-    }
-    const textLen = args.reduce((len, arg) => len + arg.length, 0);
-    if (this.component.justifyContent === 'space-between' && elementQtt >= 2) {
-      const spaces = elementQtt - 1;
-      const restOfSpace = parentWidth - textLen;
-      const widthPerSpace = restOfSpace / spaces;
-      return this.compute(`${args[0]}${prepend(args[1], widthPerSpace)}`);
-    }
-
-    return this.compute(args.join(''));
-  }
-
-  compute(textToWrite) {
-    const parentWidth = this.component.width || this.parent.width;
-    const text = textToWrite.toString();
-    let parsedText = text.toString();
-
-    if (this.component.textAlign === 'center') {
-      const halfSpace = (parentWidth - parsedText.length) / 2;
-      const floatingPoint = (halfSpace % 1 === 0.5);
-      const roundHalf = floatingPoint ? halfSpace - 0.5 : halfSpace;
-      return prepend(pospend(parsedText, floatingPoint ? roundHalf + 1 : roundHalf), roundHalf);
-    }
-
-    if (this.component.textAlign === 'right') {
-      parsedText = prepend(parsedText, parentWidth - parsedText.length);
-    }
-
-    const paddingLeft = (this.parent.paddingLeft || 0) + (this.component.paddingLeft || 0);
-    if (paddingLeft) {
-      parsedText = prepend(parsedText, paddingLeft);
-    }
-
-    const paddingRight = (this.component.paddingRight || 0);
-    if (paddingRight) {
-      parsedText = pospend(parsedText, paddingLeft, paddingRight - parsedText.length, this.component.paddingChar);
-    }
-
-    if (parsedText.length > parentWidth) {
-      const parts = Math.ceil(parsedText.length / parentWidth);
-      const lines = Array(parts)
-        .fill('')
-        .map((item, index) => {
-          if (index === parts - 1) {
-            return pospend(parsedText.substring(index * parentWidth), (parts * parentWidth) - parsedText.length, this.component.paddingChar);
-          }
-          return parsedText.substring(index * parentWidth, (index + 1) * parentWidth);
-        });
-      return lines.join('\n');
-    }
-    const toComplete = parentWidth - parsedText.length;
-    return pospend(parsedText, toComplete, this.component.paddingChar);
-  }
-
-  static merge(parent, component) {
-    return Object.assign({}, parent, component, {
-      width: parent.width,
-      paddingLeft: (parent.paddingLeft || 0) + (component.paddingLeft || 0)
+  static applyToSyblings(children, style, parent) {
+    let nextLine = 0;
+    let nextColumn = 0;
+    let newMatrix = [[]];
+    children.forEach((child) => {
+      const childMatrix = child.render(parent);
+      if (child.props.style.display === 'inline-block') {
+        const hasChildBrokedBounds = childMatrix[0].length > (parent.width - newMatrix[0].length);
+        if (hasChildBrokedBounds) {
+          completeBlock(newMatrix, nextLine, nextColumn, newMatrix.length, parent.width);
+          nextLine = newMatrix.length;
+          nextColumn = 0;
+        }
+        mergeMatrix(newMatrix, childMatrix, nextLine, nextColumn);
+        nextColumn += childMatrix[0].length;
+      }
     });
+
+    completeBlockBasedOnFirstLine(newMatrix);
+
+    return newMatrix;
   }
 
   static apply(matrix, style, parent) {
     const { width } = parent;
     let matrixStyled = matrix;
     if (style.display === 'block') {
-      
-      matrixStyled = breakLines(matrixStyled, width, style.wordWrap === 'break-all');
+      matrixStyled = breakLines(matrixStyled, style.width || width, style.wordWrap === 'break-all');
 
       if (style.textAlign === 'center') {
         matrixStyled = matrixStyled.map(line => {
@@ -135,6 +127,13 @@ class Style {
           return line.concat(Array(rest).fill(' '))
         });
       }
+    } else if (style.display === 'inline-block') {
+      matrixStyled = breakLines(matrixStyled, style.width || width, style.wordWrap === 'break-all');
+
+      matrixStyled = matrixStyled.map(line => {
+        const rest = style.width - line.length;
+        return line.concat(Array(rest).fill(' '))
+      });
     }
     return matrixStyled;
   }

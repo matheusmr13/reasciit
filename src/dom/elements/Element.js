@@ -35,6 +35,8 @@ class Element {
       ...props,
       style: merge({}, this.constructor.defaultStyle, props.style)
     };
+    this.width = this.props.style.width || 0;
+    this.height = 0;
   }
 
   render(parent) {
@@ -42,19 +44,18 @@ class Element {
     if (!children) {
       return Style.apply([[]], style, parent);
     }
-
+    
     if (typeof children === 'string') {
       return Style.apply([children.split('')], style, parent);
     }
 
-    const childrenMatrixes = children.map(child => {
-      if (typeof child === 'string') {
-        return child.split('');
-      }
-      return child.render();
-    })
-
-    return Style.apply(childrenMatrixes, style, parent);
+    if (children instanceof Element) {
+      return Style.apply(children.render(this), style, parent)
+    }
+    
+    if (Array.isArray(children)) {
+      return Style.applyToSyblings(children, style, parent);
+    }
   }
 }
 
