@@ -7,10 +7,8 @@ numeral.locale('pt-br');
 
 const formatMoney = value => numeral(value).format('$ 00.00');
 
-const Text = require('./../dom/elements/Text');
-const Line = require('./../dom/elements/Line');
 const Span = require('./../dom/elements/Span');
-const Separator = require('./../dom/elements/Separator');
+const Hr = require('./../dom/elements/Hr');
 const Field = require('./../dom/custom/Field');
 const Div = require('./../dom/elements/Div');
 const Ascom = require('./../dom');
@@ -41,6 +39,9 @@ const template = (order, columns) => {
       }),
       new Field('Client', client),
       new Field('Now', date),
+      new Span('Some random'),
+      new Span('text'),
+      new Span('together and inline'),
       new Div({
         children: 'Items',
         style: {

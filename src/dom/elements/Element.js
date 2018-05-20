@@ -9,6 +9,10 @@ const merge = (...args) => {
     return args.reduce((merged, actual) => merge(merged, actual), args[0]);
   }
 
+  if (typeof args[1] === 'undefined') {
+    return args[0];
+  }
+
   if (!args[0] || (args[0].constructor !== args[1].constructor)) {
     return args[1];
   }
@@ -26,22 +30,31 @@ const merge = (...args) => {
 }
 
 class Element {
-  constructor(props) {
+  constructor(props = {}) {
     this.props = {
       ...props,
-      style: merge({}, this.defaultStyle, this.style)
+      style: merge({}, this.constructor.defaultStyle, props.style)
     };
   }
 
-  render() {
-    const childrenMatrixes = this.children.map(child => {
+  render(parent) {
+    const { children, style } = this.props;
+    if (!children) {
+      return Style.apply([[]], style, parent);
+    }
+
+    if (typeof children === 'string') {
+      return Style.apply([children.split('')], style, parent);
+    }
+
+    const childrenMatrixes = children.map(child => {
       if (typeof child === 'string') {
         return child.split('');
       }
       return child.render();
     })
 
-    return Style.apply(childrenMatrixes, this.props.style);
+    return Style.apply(childrenMatrixes, style, parent);
   }
 }
 

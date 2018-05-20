@@ -4,7 +4,7 @@
   "description": "ASCII documents with simple DOM anottations.",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,17 @@
   },
   "homepage": "https://github.com/matheusmr13/ascomjs#readme",
   "devDependencies": {
-    "jest": "^22.4.4"
+    "@babel/core": "^7.0.0-beta.47",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.47",
+    "@babel/preset-env": "^7.0.0-beta.47",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^22.4.4",
+    "babel-loader": "7.1.2",
+    "jest": "^22.4.4",
+    "webpack": "3.8.1"
+  },
+  "babel": {
+    "presets": [ "@babel/preset-env" ],
+    "plugins": ["@babel/plugin-proposal-class-properties"]
   }
 }

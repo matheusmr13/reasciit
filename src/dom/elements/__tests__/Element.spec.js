@@ -7,7 +7,6 @@ class MyCustomElement extends Element {
 	}
 }
 
-
 describe('Element', () => {
 	describe('merging style', () => {
 		it('should merge style correctly', () => {

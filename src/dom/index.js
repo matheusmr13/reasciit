@@ -1,11 +1,15 @@
 const fs = require('fs');
 
-class Document {
+class Ascom {
   constructor(columns) {
     this.columns = columns;
   }
 
-  toString() {
+  static render(element, window) {
+    return element.render({
+      width: window.columns
+    }).map(line => line.join('')).join('\n');
+
     const reduceTillElement = matrix => matrix.reduce((array, element) => [
       ...array,
       ...(Array.isArray(element) ? reduceTillElement(element) : [element])
@@ -21,7 +25,7 @@ class Document {
     return mappedToString.join('\n');
   }
 
-  save(file) {
+  static save(file) {
     return new Promise((resolve, reject) => {
       fs.writeFile(file, this.toString(), (err) => {
         if (err) {
@@ -34,4 +38,4 @@ class Document {
   }
 }
 
-module.exports = Document;
+module.exports = Ascom;

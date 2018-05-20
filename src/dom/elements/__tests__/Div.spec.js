@@ -1,11 +1,29 @@
 const Div = require('../Div');
 const Ascom = require('../../');
 
-describe('div', () => {
+describe('Div', () => {
+	const ascomWindow = new Ascom(40);
 	it('should render correctly', () => {
-		const renderedDiv = Ascom.render(new Div({
-			children: 'My text'
-		}));
-		expect(renderedDiv).toEqual('My text');
+		const renderedDiv = Ascom.render(
+			new Div({ children: 'My text' }),
+			ascomWindow
+		);
+		expect(renderedDiv).toEqual(
+			'My text                                 '
+		);
+	});
+	it('should render correctly', () => {
+		const renderedDiv = Ascom.render(
+			new Div({
+				children: 'My text',
+				style: {
+					textAlign: 'center'
+				}
+			}),
+			ascomWindow
+		);
+		expect(renderedDiv).toEqual(
+			'                 My text                '
+		);
 	});
 });

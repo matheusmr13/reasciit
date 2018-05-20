@@ -73,6 +73,26 @@ class Style {
       paddingLeft: (parent.paddingLeft || 0) + (component.paddingLeft || 0)
     });
   }
+
+  static apply(matrix, style, parent) {
+    const { width } = parent;
+    let matrixStyled = matrix;
+    if (style.display === 'block') {
+      const rest = width - matrixStyled[0].length;
+      if (style.textAlign === 'center') {
+        const halfSpace = rest / 2;
+        const floatingPoint = (halfSpace % 1 === 0.5);
+        const roundHalf = floatingPoint ? halfSpace - 0.5 : halfSpace;
+        matrixStyled = matrixStyled.map(line => Array(roundHalf + (floatingPoint && 1))
+          .fill(' ')
+          .concat(line)
+          .concat(Array(roundHalf).fill(' ')));
+      } else {
+        matrixStyled = matrixStyled.map(line => line.concat(Array(rest).fill(' ')));
+      }
+    }
+    return matrixStyled;
+  }
 }
 
 module.exports = Style;
