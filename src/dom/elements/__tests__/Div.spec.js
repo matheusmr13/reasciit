@@ -44,9 +44,7 @@ describe('Div', () => {
 		].join('\n'));
 	});
 	it('should render long text breaking words when needed', () => {
-		const renderedDiv = renderDivWithStyle({
-			wordWrap: 'break-word'
-		}, 'My text that will probably break this line and then get to second line and if we continue maybe break to another and another line');
+		const renderedDiv = renderDivWithStyle({}, 'My text that will probably break this line and then get to second line and if we continue maybe break to another and another line');
 		expect(renderedDiv).toEqual([
 			'My text that will probably break this   ',
 			'line and then get to second line and if ',
@@ -55,9 +53,7 @@ describe('Div', () => {
 		].join('\n'));
 	});
 	it('should render long text with long words breaking words when needed', () => {
-		const renderedDiv = renderDivWithStyle({
-			wordWrap: 'break-word'
-		}, 'My text that will probably breakthisline and then get to secondlineandif we continue maybe breaktoanotherand another line');
+		const renderedDiv = renderDivWithStyle({}, 'My text that will probably breakthisline and then get to secondlineandif we continue maybe breaktoanotherand another line');
 		expect(renderedDiv).toEqual([
 			'My text that will probably breakthisline',
 			'and then get to secondlineandif we      ',
