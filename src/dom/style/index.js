@@ -2,6 +2,19 @@
 const prepend = (str, qtt, char = ' ') => `${Array(qtt).fill(char).join('')}${str}`;
 const pospend = (str, qtt, char = ' ') => `${str}${Array(qtt).fill(char).join('')}`;
 
+const breakLines = (matrix, width) => {
+  let newMatrix = [];
+
+  matrix.forEach((line) => {
+    const parts = Math.ceil(line.length / width);
+    const newLines = Array(parts)
+      .fill('')
+      .map((item, index) => line.slice(index * width, (index + 1) * width));
+    newMatrix = newMatrix.concat(newLines);
+  });
+  return newMatrix;
+};
+
 class Style {
   constructor(parentStyle, componentStyle) {
     this.parent = parentStyle || {};
@@ -78,17 +91,26 @@ class Style {
     const { width } = parent;
     let matrixStyled = matrix;
     if (style.display === 'block') {
-      const rest = width - matrixStyled[0].length;
+      
+      matrixStyled = breakLines(matrixStyled, width);
+
       if (style.textAlign === 'center') {
-        const halfSpace = rest / 2;
-        const floatingPoint = (halfSpace % 1 === 0.5);
-        const roundHalf = floatingPoint ? halfSpace - 0.5 : halfSpace;
-        matrixStyled = matrixStyled.map(line => Array(roundHalf + (floatingPoint && 1))
-          .fill(' ')
-          .concat(line)
-          .concat(Array(roundHalf).fill(' ')));
+        matrixStyled = matrixStyled.map(line => {
+          const rest = width - line.length;
+          const halfSpace = rest / 2;
+          const floatingPoint = (halfSpace % 1 === 0.5);
+          const roundHalf = floatingPoint ? halfSpace - 0.5 : halfSpace;
+
+          return Array(roundHalf + (floatingPoint && 1))
+            .fill(' ')
+            .concat(line)
+            .concat(Array(roundHalf).fill(' '))
+          });
       } else {
-        matrixStyled = matrixStyled.map(line => line.concat(Array(rest).fill(' ')));
+        matrixStyled = matrixStyled.map(line => {
+          const rest = width - line.length;
+          return line.concat(Array(rest).fill(' '))
+        });
       }
     }
     return matrixStyled;
