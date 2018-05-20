@@ -1,41 +1,51 @@
 {
-  "name": "ascomjs",
-  "version": "1.0.0",
-  "description": "ASCII documents with simple DOM anottations.",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest --watch"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/matheusmr13/ascomjs.git"
-  },
-  "keywords": [
-    "ascii",
-    "dom",
-    "js",
-    "node",
-    "invoice",
-    "receipt"
-  ],
-  "author": "matheusmr13",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/matheusmr13/ascomjs/issues"
-  },
-  "homepage": "https://github.com/matheusmr13/ascomjs#readme",
-  "devDependencies": {
-    "@babel/core": "^7.0.0-beta.47",
-    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.47",
-    "@babel/preset-env": "^7.0.0-beta.47",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^22.4.4",
-    "babel-loader": "7.1.2",
-    "jest": "^22.4.4",
-    "webpack": "3.8.1"
-  },
-  "babel": {
-    "presets": [ "@babel/preset-env" ],
-    "plugins": ["@babel/plugin-proposal-class-properties"]
-  }
+	"name": "ascomjs",
+	"version": "1.0.0",
+	"description": "ASCII documents with simple DOM anottations.",
+	"main": "index.js",
+	"scripts": {
+		"test": "jest --watch",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/matheusmr13/ascomjs.git"
+	},
+	"keywords": [
+		"ascii",
+		"dom",
+		"js",
+		"node",
+		"invoice",
+		"receipt"
+	],
+	"author": "matheusmr13",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/matheusmr13/ascomjs/issues"
+	},
+	"homepage": "https://github.com/matheusmr13/ascomjs#readme",
+	"devDependencies": {
+		"@babel/core": "^7.0.0-beta.47",
+		"@babel/plugin-proposal-class-properties": "^7.0.0-beta.47",
+		"@babel/preset-env": "^7.0.0-beta.47",
+		"babel-core": "^7.0.0-bridge.0",
+		"babel-eslint": "^8.2.3",
+		"babel-jest": "^22.4.4",
+		"babel-loader": "7.1.2",
+		"eslint": "^4.19.1",
+		"eslint-config-airbnb-base": "^12.1.0",
+		"eslint-plugin-import": "^2.11.0",
+		"jest": "^22.4.4",
+		"webpack": "3.8.1"
+	},
+	"babel": {
+		"presets": [
+			"@babel/preset-env"
+		],
+		"plugins": [
+			"@babel/plugin-proposal-class-properties"
+		]
+	}
 }

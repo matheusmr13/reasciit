@@ -16,7 +16,7 @@ describe('Element', () => {
 					paddingBottom: 3
 				}
 			});
-			expect(myCustomElement.props.style).toEqual({
+			expect(myCustomElement.props.style).toMatchObject({
 				paddingBottom: 3,
 				paddingLeft: 2,
 				display: 'inline'

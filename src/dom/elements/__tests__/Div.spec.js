@@ -25,7 +25,7 @@ describe('Div', () => {
 			'My text that will probably break this   ',
 			'line and then get to second line and if ',
 			'we continue maybe break to another and  ',
-			'another line                            ',
+			'another line                            '
 		].join('\n'));
 	});
 	it('should render long text with long words breaking words when needed', () => {
@@ -34,7 +34,7 @@ describe('Div', () => {
 			'My text that will probably breakthisline',
 			'and then get to secondlineandif we      ',
 			'continue maybe breaktoanotherand another',
-			'line                                    ',
+			'line                                    '
 		].join('\n'));
 	});
 	it('should render long centered text with long words breaking words when needed', () => {
@@ -45,7 +45,7 @@ describe('Div', () => {
 			'My text that will probably breakthisline',
 			'   and then get to secondlineandif we   ',
 			'continue maybe breaktoanotherand another',
-			'                  line                  ',
+			'                  line                  '
 		].join('\n'));
 	});
 	it('should render long text completing remaining columns on last line', () => {
@@ -56,7 +56,7 @@ describe('Div', () => {
 			'My text that will probably break this li',
 			'ne and then get to second line and if we',
 			' continue maybe break to another and ano',
-			'ther line                               ',
+			'ther line                               '
 		].join('\n'));
 	});
 	it('should render long text completing remaining columns on last line', () => {
@@ -80,7 +80,7 @@ describe('Div', () => {
 			'My text that will probably break this li',
 			'ne and then get to second line and if we',
 			' continue maybe break to another and ano',
-			'                ther line               ',
+			'                ther line               '
 		].join('\n'));
 	});
 	it('should render div inside div', () => {
@@ -98,7 +98,7 @@ describe('Div', () => {
 		expect(renderedDiv).toEqual([
 			'  My text that will                     ',
 			' probably break this                    ',
-			'        line                            ',
+			'        line                            '
 		].join('\n'));
 	});
 

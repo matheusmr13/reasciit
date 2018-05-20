@@ -2,8 +2,8 @@ const Element = require('./Element');
 
 class Hr extends Element {
   defaultStyle = {
-    display: 'block',
-    borderBottom: '1px'
+  	display: 'block',
+  	borderBottom: '1px'
   }
 }
 
