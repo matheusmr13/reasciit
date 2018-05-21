@@ -30,39 +30,41 @@ const merge = (...args) => {
 };
 
 class Element {
-  static defaultStyle = {
-  	display: 'block',
-  	textAlign: 'left',
-  	wordWrap: 'break-word'
-  };
+	static defaultStyle = {
+		display: 'block',
+		textAlign: 'left',
+		wordWrap: 'break-word'
+	};
 
-  constructor(props = {}) {
-  	this.props = {
-  		...props,
-  		style: merge({}, Element.defaultStyle, this.constructor.defaultStyle, props.style)
-  	};
-  	this.width = this.props.style.width || 0;
-  	this.height = 0;
-  }
+	constructor(props = {}) {
+		this.props = {
+			...props,
+			style: merge({}, Element.defaultStyle, this.constructor.defaultStyle, props.style)
+		};
+		this.width = this.props.style.width || 0;
+		this.height = 0;
+	}
 
-  render(parent) {
-  	const { children, style } = this.props;
-  	if (!children) {
-  		return Style.apply([[]], style, parent);
-  	}
+	render(parent) {
+		const { children, style } = this.props;
+		if (!children) {
+			return Style.apply([[]], style, parent);
+		}
 
-  	if (typeof children === 'string') {
-  		return Style.apply([children.split('')], style, parent);
-  	}
+		if (typeof children === 'string') {
+			return Style.apply([children.split('')], style, parent);
+		}
 
-  	if (children instanceof Element) {
-  		return Style.apply(children.render(this), style, parent);
-  	}
+		if (children instanceof Element) {
+			return Style.apply(children.render(this), style, parent);
+		}
 
-  	if (Array.isArray(children)) {
-  		return Style.applyToSyblings(children, style, parent);
-  	}
-  }
+		if (Array.isArray(children)) {
+			return Style.applyToSyblings(children, style, parent);
+		}
+
+		throw new Error('Invalid children');
+	}
 }
 
 module.exports = Element;

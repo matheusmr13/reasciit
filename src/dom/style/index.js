@@ -48,50 +48,70 @@ const breakLines = (matrix, width, breakAll) => {
 };
 
 const mergeMatrix = (dest, origin, x, y) => {
-	for (let i = x, xOrigin = 0; xOrigin < origin.length; i++, xOrigin++) {
-		for (let j = y, yOrigin = 0; yOrigin < origin[0].length; j++, yOrigin++) {
-			dest[i] = dest[i] || [];
-			dest[i][j] = origin[xOrigin][yOrigin];
+	const result = [...dest];
+	for (let i = x, xOrigin = 0; xOrigin < origin.length; i += 1, xOrigin += 1) {
+		for (let j = y, yOrigin = 0; yOrigin < origin[0].length; j += 1, yOrigin += 1) {
+			result[i] = result[i] || [];
+			result[i][j] = origin[xOrigin][yOrigin];
 		}
 	}
+	return result;
 };
 
 const completeBlock = (matrix, x, y, xL, yL) => {
-	for (let i = x; i < xL; i++) {
-		for (let j = y; j < yL; j++) {
-			matrix[i][j] = ' ';
+	const result = [...matrix];
+	for (let i = x; i < xL; i += 1) {
+		for (let j = y; j < yL; j += 1) {
+			result[i][j] = ' ';
 		}
 	}
+	return result;
 };
 
 const completeBlockBasedOnFirstLine = (matrix) => {
-	for (let i = 0; i < matrix.length; i++) {
-		for (let j = 0; j < matrix[0].length; j++) {
-			matrix[i][j] = matrix[i][j] || ' ';
+	const result = [...matrix];
+	for (let i = 0; i < result.length; i += 1) {
+		for (let j = 0; j < result[0].length; j += 1) {
+			result[i][j] = result[i][j] || ' ';
 		}
 	}
+	return result;
 };
 
 class Style {
 	static applyToSyblings(children, style, parent) {
 		let nextLine = 0;
 		let nextColumn = 0;
-		const newMatrix = [[]];
+		let newMatrix = [[]];
 		children.forEach((child) => {
 			const childMatrix = child.render(parent);
 			if (child.props.style.display === 'inline-block') {
 				const hasChildBrokedBounds = childMatrix[0].length > (parent.width - newMatrix[0].length);
 				if (hasChildBrokedBounds) {
-					completeBlock(newMatrix, nextLine, nextColumn, newMatrix.length, parent.width);
+					newMatrix = completeBlock(
+						newMatrix,
+						nextLine,
+						nextColumn,
+						newMatrix.length,
+						parent.width
+					);
 					nextLine = newMatrix.length;
 					nextColumn = 0;
 				}
-				mergeMatrix(newMatrix, childMatrix, nextLine, nextColumn);
+				newMatrix = mergeMatrix(newMatrix, childMatrix, nextLine, nextColumn);
 				nextColumn += childMatrix[0].length;
+			}
+
+			if (child.props.style.display === 'block') {
+				const firstLine = (newMatrix.length === 1 && nextColumn === 0);
+				const nextBlockLine = firstLine ? 0 : newMatrix.length;
+				newMatrix = mergeMatrix(newMatrix, childMatrix, nextBlockLine, 0);
+				nextColumn = 0;
+				nextLine = newMatrix.length;
 			}
 		});
 
-		completeBlockBasedOnFirstLine(newMatrix);
+		newMatrix = completeBlockBasedOnFirstLine(newMatrix);
 
 		return newMatrix;
 	}

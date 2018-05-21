@@ -1,6 +1,12 @@
 const fs = require('fs');
 const Element = require('./elements/Element');
 
+const DOM = {
+	div: require('./elements/Div'),
+	hr: require('./elements/Hr'),
+	span: require('./elements/Span')
+};
+
 class Ascom {
 	constructor(columns) {
 		this.columns = columns;
@@ -13,20 +19,6 @@ class Ascom {
 		return element.render({
 			width: window.columns
 		}).map(line => line.join('')).join('\n');
-
-		const reduceTillElement = matrix => matrix.reduce((array, element) => [
-			...array,
-			...(Array.isArray(element) ? reduceTillElement(element) : [element])
-		], []);
-
-		const elements = this.render().filter(element => !!element);
-		const reduced = reduceTillElement(elements);
-
-		const mappedToString = reduced.map(element => element.render({
-			width: this.columns
-		}));
-
-		return mappedToString.join('\n');
 	}
 
 	static save(file) {
@@ -38,6 +30,13 @@ class Ascom {
 				}
 				resolve();
 			});
+		});
+	}
+
+	static createElement(element, props, children) {
+		return new (DOM[element])({
+			...props,
+			children
 		});
 	}
 }

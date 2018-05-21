@@ -1,15 +1,16 @@
-const Element = require('./Element');
-const Style = require('./Style');
+const Element = require('./../elements/Element');
+const Div = require('./../elements/Div');
+const Span = require('./../elements/Span');
 
 class Field extends Element {
-	constructor(label, value) {
-		super();
-		this.label = label;
-		this.value = value;
-	}
-
-	render(parentStyle) {
-		return new Style(parentStyle, this.style).computeArray(`${this.label}: `, this.value);
+	render() {
+		const { label, value } = this.props;
+		return new Div({
+			children: [
+				new Span({ children: label }),
+				new Span({ children: value })
+			]
+		});
 	}
 }
 

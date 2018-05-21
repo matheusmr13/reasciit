@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "jest --watch",
+		"coverage": "jest --watch --coverage",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix"
 	},
@@ -34,6 +35,7 @@
 		"babel-eslint": "^8.2.3",
 		"babel-jest": "^22.4.4",
 		"babel-loader": "7.1.2",
+		"babel-plugin-transform-react-jsx": "^6.24.1",
 		"eslint": "^4.19.1",
 		"eslint-config-airbnb-base": "^12.1.0",
 		"eslint-plugin-import": "^2.11.0",
@@ -45,7 +47,8 @@
 			"@babel/preset-env"
 		],
 		"plugins": [
-			"@babel/plugin-proposal-class-properties"
+			"@babel/plugin-proposal-class-properties",
+			["transform-react-jsx", { "pragma": "hue" }]
 		]
 	}
 }
