@@ -45,8 +45,9 @@ class Element {
 		this.height = 0;
 	}
 
-	render(parent) {
+	render(window, parent) {
 		const { children, style } = this.props;
+
 		if (!children) {
 			return Style.apply([[]], style, parent);
 		}
@@ -55,12 +56,16 @@ class Element {
 			return Style.apply([children.split('')], style, parent);
 		}
 
+		if (children && children.length && typeof children[0] === 'string') {
+			return Style.apply([children[0].split('')], style, parent);
+		}
+
 		if (children instanceof Element) {
-			return Style.apply(children.render(this), style, parent);
+			return Style.apply(children.render(window, this), style, parent);
 		}
 
 		if (Array.isArray(children)) {
-			return Style.applyToSyblings(children, style, parent);
+			return Style.applyToSyblings(children, style, window, parent);
 		}
 
 		throw new Error('Invalid children');

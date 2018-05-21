@@ -79,12 +79,15 @@ const completeBlockBasedOnFirstLine = (matrix) => {
 };
 
 class Style {
-	static applyToSyblings(children, style, parent) {
+	static applyToSyblings(children, style, window, parent) {
 		let nextLine = 0;
 		let nextColumn = 0;
 		let newMatrix = [[]];
 		children.forEach((child) => {
-			const childMatrix = child.render(parent);
+			if (typeof child === 'string') {
+				return;
+			}
+			const childMatrix = child.render(window, parent);
 			if (child.props.style.display === 'inline-block') {
 				const hasChildBrokedBounds = childMatrix[0].length > (parent.width - newMatrix[0].length);
 				if (hasChildBrokedBounds) {

@@ -4,21 +4,42 @@ const Element = require('./elements/Element');
 const DOM = {
 	div: require('./elements/Div'),
 	hr: require('./elements/Hr'),
-	span: require('./elements/Span')
+	span: require('./elements/Span'),
+	img: require('./elements/Img')
 };
 
 class Ascom {
 	constructor(columns) {
 		this.columns = columns;
+		this.promisesToLoad = [];
 	}
 
-	static render(element, window) {
+	addPromiseToLoad(promise) {
+		this.promisesToLoad.push(promise);
+	}
+
+	static render(element, window, opts = {}) {
 		if (!(element instanceof Element)) {
 			throw new Error('You must pass and element to render');
 		}
-		return element.render({
+		const renderedElements = element.render(window, {
 			width: window.columns
 		}).map(line => line.join('')).join('\n');
+
+		Promise.all(window.promisesToLoad).then(() => {
+			if (opts.onLoad) {
+				const result = element.render(window, {
+					width: window.columns
+				}).map(line => line.join('')).join('\n');
+				opts.onLoad(result);
+			}
+		}).catch((err) => {
+			if (opts.onError) {
+				opts.onError(err);
+			}
+		});
+
+		return renderedElements;
 	}
 
 	static save(file) {
@@ -33,7 +54,7 @@ class Ascom {
 		});
 	}
 
-	static createElement(element, props, children) {
+	static createElement(element, props, ...children) {
 		return new (DOM[element])({
 			...props,
 			children

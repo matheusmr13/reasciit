@@ -4,10 +4,10 @@
 	"description": "ASCII documents with simple DOM anottations.",
 	"main": "index.js",
 	"scripts": {
-		"test": "jest --watch",
+		"test": "jest",
 		"coverage": "jest --watch --coverage",
 		"lint": "eslint .",
-		"lint:fix": "eslint . --fix"
+		"hue": "node luana"
 	},
 	"repository": {
 		"type": "git",
@@ -48,7 +48,15 @@
 		],
 		"plugins": [
 			"@babel/plugin-proposal-class-properties",
-			["transform-react-jsx", { "pragma": "hue" }]
+			[
+				"transform-react-jsx",
+				{
+					"pragma": "hue"
+				}
+			]
 		]
+	},
+	"dependencies": {
+		"image-to-ascii": "^3.0.11"
 	}
 }
