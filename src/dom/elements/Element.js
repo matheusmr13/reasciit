@@ -46,6 +46,7 @@ class Element {
 	}
 
 	render(window, parent) {
+		this.width = this.props.style.width || parent.width;
 		const { children, style } = this.props;
 
 		if (!children) {
@@ -56,16 +57,12 @@ class Element {
 			return Style.apply([children.split('')], style, parent);
 		}
 
-		if (children && children.length && typeof children[0] === 'string') {
-			return Style.apply([children[0].split('')], style, parent);
-		}
-
 		if (children instanceof Element) {
 			return Style.apply(children.render(window, this), style, parent);
 		}
 
 		if (Array.isArray(children)) {
-			return Style.applyToSyblings(children, style, window, parent);
+			return Style.applyToSyblings(children, style, window, this);
 		}
 
 		throw new Error('Invalid children');

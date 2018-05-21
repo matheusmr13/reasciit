@@ -78,16 +78,69 @@ const completeBlockBasedOnFirstLine = (matrix) => {
 	return result;
 };
 
+const renderBorders = (matrix, width, style) => {
+	let result = [...matrix];
+	if (style.borderTop) {
+		result = Array(style.borderTop).fill(Array(width).fill('-')).concat(result);
+	}
+	if (style.borderBottom) {
+		result = result.concat(Array(style.borderTop).fill(Array(width).fill('-')));
+	}
+	return result;
+};
+
+const renderPadding = (matrix, width, style) => {
+	let result = [...matrix];
+	if (style.paddingTop) {
+		result = Array(style.paddingTop).fill(Array(width).fill(' ')).concat(result);
+	}
+	if (style.paddingBottom) {
+		result = result.concat(Array(style.paddingBottom).fill(Array(width).fill(' ')));
+	}
+	return result;
+};
+
+const alignText = (matrix, style, width) => {
+	if (style.textAlign === 'center') {
+		return matrix.map((line) => {
+			const rest = width - line.length;
+			const halfSpace = rest / 2;
+			const floatingPoint = (halfSpace % 1 === 0.5);
+			const roundHalf = floatingPoint ? halfSpace - 0.5 : halfSpace;
+
+			return Array(roundHalf + (floatingPoint && 1))
+				.fill(' ')
+				.concat(line)
+				.concat(Array(roundHalf).fill(' '));
+		});
+	}
+	if (style.textAlign === 'left') {
+		return matrix.map((line) => {
+			const rest = width - line.length;
+			return line.concat(Array(rest).fill(' '));
+		});
+	}
+	if (style.textAlign === 'right') {
+		return matrix.map((line) => {
+			const rest = width - line.length;
+			return Array(rest).fill(' ').concat(line);
+		});
+	}
+	throw new Error(`Text align value "${style.textAlign}" not supported.`);
+};
+
 class Style {
 	static applyToSyblings(children, style, window, parent) {
 		let nextLine = 0;
 		let nextColumn = 0;
 		let newMatrix = [[]];
+
+		if (children.filter(child => typeof child === 'string').length === children.length) {
+			const reducedString = [children.join('').split('')];
+			return Style.apply(reducedString, style, parent);
+		}
+
 		children.forEach((child) => {
-			console.info(child);
-			if (typeof child === 'string') {
-				return;
-			}
 			const childMatrix = child.render(window, parent);
 			if (child.props.style.display === 'inline-block') {
 				const hasChildBrokedBounds = childMatrix[0].length > (parent.width - newMatrix[0].length);
@@ -104,20 +157,19 @@ class Style {
 				}
 				newMatrix = mergeMatrix(newMatrix, childMatrix, nextLine, nextColumn);
 				nextColumn += childMatrix[0].length;
-			}
-
-			if (child.props.style.display === 'block') {
-				const firstLine = (newMatrix.length === 1 && nextColumn === 0);
+			} else if (child.props.style.display === 'block') {
+				const firstLine = (newMatrix.length === 1 && nextColumn === 0 && newMatrix[0].length);
 				const nextBlockLine = firstLine ? 0 : newMatrix.length;
 				newMatrix = mergeMatrix(newMatrix, childMatrix, nextBlockLine, 0);
 				nextColumn = 0;
 				nextLine = newMatrix.length;
+			} else if (child.props.style.display === 'inline') {
+				// newMatrix = renderInline(newMatrix, childMatrix, nextLine, nextColumn);
 			}
 		});
-
 		newMatrix = completeBlockBasedOnFirstLine(newMatrix);
 
-		return newMatrix;
+		return Style.apply(newMatrix, style, parent);
 	}
 
 	static apply(matrix, style, parent) {
@@ -127,40 +179,16 @@ class Style {
 		let matrixStyled = matrix;
 		if (style.display === 'block') {
 			matrixStyled = breakLines(matrixStyled, elementWidth, style.wordWrap === 'break-all');
-
-			if (style.textAlign === 'center') {
-				matrixStyled = matrixStyled.map((line) => {
-					const rest = elementWidth - line.length;
-					const halfSpace = rest / 2;
-					const floatingPoint = (halfSpace % 1 === 0.5);
-					const roundHalf = floatingPoint ? halfSpace - 0.5 : halfSpace;
-
-					return Array(roundHalf + (floatingPoint && 1))
-						.fill(' ')
-						.concat(line)
-						.concat(Array(roundHalf).fill(' '));
-				});
-			} else if (style.textAlign === 'left') {
-				matrixStyled = matrixStyled.map((line) => {
-					const rest = elementWidth - line.length;
-					return line.concat(Array(rest).fill(' '));
-				});
-			} else if (style.textAlign === 'right') {
-				matrixStyled = matrixStyled.map((line) => {
-					const rest = elementWidth - line.length;
-					return Array(rest).fill(' ').concat(line);
-				});
-			} else {
-				throw new Error(`Text align value "${style.textAlign}" not supported.`);
-			}
+			matrixStyled = renderPadding(matrixStyled, elementWidth, style);
+			matrixStyled = renderBorders(matrixStyled, elementWidth, style);
+			matrixStyled = alignText(matrixStyled, style, width);
 		} else if (style.display === 'inline-block') {
 			matrixStyled = breakLines(matrixStyled, elementWidth, style.wordWrap === 'break-all');
-
-			matrixStyled = matrixStyled.map((line) => {
-				const rest = elementWidth - line.length;
-				return line.concat(Array(rest).fill(' '));
-			});
+			matrixStyled = alignText(matrixStyled, style, elementWidth);
+		} else if (style.display === 'inline') {
+			return matrixStyled;
 		}
+
 		return matrixStyled;
 	}
 }

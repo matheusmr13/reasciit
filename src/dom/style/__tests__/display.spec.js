@@ -44,7 +44,7 @@ describe('display', () => {
 					})
 				],
 				style: {
-					width: 30,
+					width: 40,
 					display: 'block'
 				}
 			}));

@@ -55,9 +55,30 @@ class Ascom {
 	}
 
 	static createElement(element, props, ...children) {
+		const childrenProcessed = children
+			.filter(child => !!child)
+			.reduce((reduced, actual) => {
+				if (actual['0']) {
+					return [
+						...reduced,
+						...Object.values(actual)
+					];
+				}
+				if (actual instanceof Element) {
+					return [
+						...reduced,
+						actual
+					];
+				}
+				return [
+					...reduced,
+					actual.toString()
+				];
+			}, []);
+
 		return new (DOM[element])({
 			...props,
-			children
+			children: childrenProcessed
 		});
 	}
 }
