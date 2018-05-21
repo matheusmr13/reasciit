@@ -84,6 +84,7 @@ class Style {
 		let nextColumn = 0;
 		let newMatrix = [[]];
 		children.forEach((child) => {
+			console.info(child);
 			if (typeof child === 'string') {
 				return;
 			}
@@ -121,13 +122,15 @@ class Style {
 
 	static apply(matrix, style, parent) {
 		const { width } = parent;
+		const elementWidth = style.width || width;
+
 		let matrixStyled = matrix;
 		if (style.display === 'block') {
-			matrixStyled = breakLines(matrixStyled, style.width || width, style.wordWrap === 'break-all');
+			matrixStyled = breakLines(matrixStyled, elementWidth, style.wordWrap === 'break-all');
 
 			if (style.textAlign === 'center') {
 				matrixStyled = matrixStyled.map((line) => {
-					const rest = width - line.length;
+					const rest = elementWidth - line.length;
 					const halfSpace = rest / 2;
 					const floatingPoint = (halfSpace % 1 === 0.5);
 					const roundHalf = floatingPoint ? halfSpace - 0.5 : halfSpace;
@@ -139,22 +142,22 @@ class Style {
 				});
 			} else if (style.textAlign === 'left') {
 				matrixStyled = matrixStyled.map((line) => {
-					const rest = width - line.length;
+					const rest = elementWidth - line.length;
 					return line.concat(Array(rest).fill(' '));
 				});
 			} else if (style.textAlign === 'right') {
 				matrixStyled = matrixStyled.map((line) => {
-					const rest = width - line.length;
+					const rest = elementWidth - line.length;
 					return Array(rest).fill(' ').concat(line);
 				});
 			} else {
 				throw new Error(`Text align value "${style.textAlign}" not supported.`);
 			}
 		} else if (style.display === 'inline-block') {
-			matrixStyled = breakLines(matrixStyled, style.width || width, style.wordWrap === 'break-all');
+			matrixStyled = breakLines(matrixStyled, elementWidth, style.wordWrap === 'break-all');
 
 			matrixStyled = matrixStyled.map((line) => {
-				const rest = style.width - line.length;
+				const rest = elementWidth - line.length;
 				return line.concat(Array(rest).fill(' '));
 			});
 		}

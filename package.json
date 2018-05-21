@@ -4,7 +4,7 @@
 	"description": "ASCII documents with simple DOM anottations.",
 	"main": "index.js",
 	"scripts": {
-		"test": "jest",
+		"test": "jest --watch",
 		"coverage": "jest --watch --coverage",
 		"lint": "eslint .",
 		"hue": "node luana"
