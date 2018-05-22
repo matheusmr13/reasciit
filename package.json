@@ -1,6 +1,6 @@
 {
 	"name": "reasciit",
-	"version": "1.0.0",
+	"version": "0.0.1",
 	"description": "ASCII documents with simple DOM anottations.",
 	"main": "index.js",
 	"scripts": {
