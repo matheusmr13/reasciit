@@ -1,5 +1,4 @@
-/** @jsx Ascom.createElement */
-const Ascom = require('./../dom');
+const Reasciit = require('./../dom');
 
 const template = (order) => {
 	const { merchant, shortReference, createdAt } = order;

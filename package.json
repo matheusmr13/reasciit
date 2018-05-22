@@ -1,5 +1,5 @@
 {
-	"name": "ascomjs",
+	"name": "reasciit",
 	"version": "1.0.0",
 	"description": "ASCII documents with simple DOM anottations.",
 	"main": "index.js",
@@ -11,7 +11,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/matheusmr13/ascomjs.git"
+		"url": "git+https://github.com/matheusmr13/reasciit.git"
 	},
 	"keywords": [
 		"ascii",
@@ -24,9 +24,9 @@
 	"author": "matheusmr13",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/matheusmr13/ascomjs/issues"
+		"url": "https://github.com/matheusmr13/reasciit/issues"
 	},
-	"homepage": "https://github.com/matheusmr13/ascomjs#readme",
+	"homepage": "https://github.com/matheusmr13/reasciit#readme",
 	"devDependencies": {
 		"@babel/core": "^7.0.0-beta.47",
 		"@babel/plugin-proposal-class-properties": "^7.0.0-beta.47",
@@ -48,15 +48,11 @@
 		],
 		"plugins": [
 			"@babel/plugin-proposal-class-properties",
-			[
-				"transform-react-jsx",
-				{
-					"pragma": "hue"
-				}
-			]
+			["transform-react-jsx", { "pragma": "Reasciit.createElement" }]
 		]
 	},
 	"dependencies": {
+		"figlet": "^1.2.0",
 		"image-to-ascii": "^3.0.11"
 	}
 }

@@ -1,5 +1,5 @@
 const jsxTemplate = require('./jsxExample');
-const Ascom = require('./../dom');
+const Reasciit = require('./../dom');
 
 const order = {
 	id: 'ff808081622dff9601622ebc37c34b5e',
@@ -61,6 +61,6 @@ const order = {
 
 describe('asd', () => {
 	it('should jsx', () => {
-		const rendered = Ascom.render(jsxTemplate(order), new Ascom(40));
+		const rendered = Reasciit.render(jsxTemplate(order), new Reasciit(40));
 	});
 });

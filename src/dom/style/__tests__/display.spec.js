@@ -1,12 +1,12 @@
 const Element = require('../../elements/Element');
-const Ascom = require('../../');
+const Reasciit = require('../../');
 
 describe('display', () => {
-	const ascomRender = element => Ascom.render(element, new Ascom(40));
+	const reasciitRender = element => Reasciit.render(element, new Reasciit(40));
 
 	describe('block', () => {
 		it('should render block inside block', () => {
-			const renderedDiv = ascomRender(new Element({
+			const renderedDiv = reasciitRender(new Element({
 				children: new Element({
 					children: 'My text that will probably break this line',
 					style: {
@@ -26,7 +26,7 @@ describe('display', () => {
 			].join('\n'));
 		});
 		it('should render blocks inside block', () => {
-			const renderedDiv = ascomRender(new Element({
+			const renderedDiv = reasciitRender(new Element({
 				children: [
 					new Element({
 						children: 'My text that will probably break this line',
@@ -60,7 +60,7 @@ describe('display', () => {
 	});
 	describe('inline-block', () => {
 		it('should render inline-blocks aside', () => {
-			const renderedDiv = ascomRender(new Element({
+			const renderedDiv = reasciitRender(new Element({
 				children: [
 					new Element({
 						children: 'My ',
@@ -86,7 +86,7 @@ describe('display', () => {
 			].join('\n'));
 		});
 		it('should render inline-blocks on two different lines', () => {
-			const renderedDiv = ascomRender(new Element({
+			const renderedDiv = reasciitRender(new Element({
 				children: [
 					new Element({
 						children: 'My ',
@@ -113,7 +113,7 @@ describe('display', () => {
 			].join('\n'));
 		});
 		it('should render divs on many lines respecting width bounds', () => {
-			const renderedDiv = ascomRender(new Element({
+			const renderedDiv = reasciitRender(new Element({
 				children: [
 					new Element({
 						children: 'My text at right that will occupy many lines',
@@ -144,7 +144,7 @@ describe('display', () => {
 		});
 	});
 	// it('should render divs inline', () => {
-	// 	const renderedDiv = ascomRender(new Div({
+	// 	const renderedDiv = reasciitRender(new Div({
 	// 		children: [
 	// 			new Div({
 	// 				children: 'My ',

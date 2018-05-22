@@ -1,4 +1,4 @@
-const Ascom = require('./../dom');
+const Reasciit = require('./../dom');
 const Span = require('./../dom/elements/Span');
 const Hr = require('./../dom/elements/Hr');
 const Field = require('./../dom/custom/Field');
@@ -14,7 +14,7 @@ const template = ({ order, columns }) => {
 		observation
 	} = order;
 
-	return Ascom.render(new Div({
+	return Reasciit.render(new Div({
 		style: {
 			width: columns
 		},
@@ -41,7 +41,7 @@ const template = ({ order, columns }) => {
 			// }),
 			// new Field('Obs', observation)
 		]
-	}), new Ascom(20));
+	}), new Reasciit(20));
 };
 
 module.exports = template;

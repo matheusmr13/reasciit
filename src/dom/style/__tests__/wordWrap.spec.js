@@ -1,10 +1,10 @@
 const Element = require('../../elements/Element');
-const Ascom = require('../../');
+const Reasciit = require('../../');
 
 describe('wordWrap', () => {
-	const ascomWindow = new Ascom(40);
-	const ascomRender = element => Ascom.render(element, ascomWindow);
-	const render = (style, children) => ascomRender(new Element({
+	const reasciitWindow = new Reasciit(40);
+	const reasciitRender = element => Reasciit.render(element, reasciitWindow);
+	const render = (style, children) => reasciitRender(new Element({
 		children,
 		style
 	}));

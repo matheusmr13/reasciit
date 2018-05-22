@@ -8,7 +8,7 @@ const DOM = {
 	img: require('./elements/Img')
 };
 
-class Ascom {
+class Reasciit {
 	constructor(columns) {
 		this.columns = columns;
 		this.promisesToLoad = [];
@@ -83,4 +83,4 @@ class Ascom {
 	}
 }
 
-module.exports = Ascom;
+module.exports = Reasciit;
