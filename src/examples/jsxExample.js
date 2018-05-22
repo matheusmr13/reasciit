@@ -1,34 +1,20 @@
 const Reasciit = require('./../dom');
 
 const template = (order) => {
-	const { merchant, shortReference, createdAt } = order;
 	const {
+		id,
 		restaurantName,
-		ordersCount,
-		deliveryAddress: {
-			formattedAddress,
+		deliveryFee,
+		address: {
+			street,
+			number,
 			neighborhood,
-			complement,
 			reference,
 			city,
-			state,
-			postalCode
+			state
 		},
 		items
 	} = order;
-
-	let taxPayerId = '';
-	let changeDue = 0;
-
-	if (order.customer.taxPayerIdentificationNumber) {
-		taxPayerId = order.customer.taxPayerIdentificationNumber;
-	}
-
-	order.payments.forEach((payment) => {
-		if (payment.changeFor && payment.changeFor > 0) {
-			changeDue = payment.changeFor - order.totalPrice;
-		}
-	});
 
 	const itemsToRender = items.map(item => (
 		<div style={{ paddingBottom: 1 }}>
@@ -36,75 +22,55 @@ const template = (order) => {
 			<div style={{ display: 'inline-block', width: 35 }}>
 				<div>
 					<div style={{ display: 'inline-block', width: 26 }}>{item.name}</div>
-					<div style={{ display: 'inline-block', width: 9, textAlign: 'right' }}>{item.totalPrice}</div>
+					<div style={{ display: 'inline-block', width: 9, textAlign: 'right' }}>$ {item.totalPrice}</div>
 				</div>
 				{
 					item.subItems && !!item.subItems.length && item.subItems.map(subitem => (
 						<div>
 							<div style={{ display: 'inline-block', width: 26 }}>{subitem.quantity} {subitem.name}</div>
-							<div style={{ display: 'inline-block', width: 9, textAlign: 'right' }}>{subitem.totalPrice}</div>
+							<div style={{ display: 'inline-block', width: 9, textAlign: 'right' }}>$ {subitem.totalPrice}</div>
 						</div>
 					))
 				}
 			</div>
 		</div>
 	));
+
+	const total = items.reduce((parcial, item) => parcial + item.totalPrice, 0);
 	return (
-		<div style={{ paddingBottom: 4 }}>
-			<div style={{ textAlign: 'center', borderTop: 1, paddingBottom: 1 }}>My Title</div>
-			<div>Restaurante: {restaurantName}</div>
-			<div style={{ paddingBottom: 1 }}>Pedido: {shortReference} Data {'asdad asdsad asdad'}</div>
-			<div>Dados do cliente</div>
-			<div>Nome: {restaurantName}</div>
-			<div>Pedidos: {ordersCount} pedidos</div>
-			<div>Endereço: {formattedAddress}</div>
-			<div>Bairro: {neighborhood}</div>
-			{ complement && <div>Comp: {complement}</div> }
-			{ reference && <div>Ref: {reference}</div> }
+		<div style={{ paddingBottom: 2 }}>
+			<div style={{ textAlign: 'center', borderTop: 1, paddingBottom: 1 }}>Order: {id}</div>
+			<div>Restaurant: {restaurantName}</div>
+
+			<div>Client address: {street}, {number} - {neighborhood}, {city} - {state}</div>
+			{ reference && <div>Reference: {reference}</div> }
 			<div>Cidade: {city} - {state}</div>
-			<div style={{ paddingBottom: 1 }}>CEP: {postalCode}</div>
-			<div>Itens do Pedido</div>
+			<div style={{ paddingTop: 1 }}>Items</div>
 			<div>
-				<div style={{ display: 'inline-block', width: 5 }}>Qtd</div>
-				<div style={{ display: 'inline-block', width: 26 }}>Item</div>
-				<div style={{ display: 'inline-block', width: 9, textAlign: 'right' }}>Preço</div>
+				<div style={{ display: 'inline-block', width: 5 }}>Qtt</div>
+				<div style={{ display: 'inline-block', width: 26 }}>Description</div>
+				<div style={{ display: 'inline-block', width: 9, textAlign: 'right' }}>Price</div>
 			</div>
 			{ ...itemsToRender }
 			<div>
 				<div style={{ display: 'inline-block', width: 9 }}> </div>
 				<div style={{ display: 'inline-block', width: 31 }}>
 					<div>
-						<div style={{ display: 'inline-block', width: 22 }}>Sub-Total:</div>
-						<div style={{ display: 'inline-block', width: 9, textAlign: 'right' }}>R$ 28,00</div>
+						<div style={{ display: 'inline-block', width: 22 }}>Parcial:</div>
+						<div style={{ display: 'inline-block', width: 9, textAlign: 'right' }}>$ {total}</div>
 					</div>
 					<div>
-						<div style={{ display: 'inline-block', width: 22 }}>Taxa de Entrega:</div>
-						<div style={{ display: 'inline-block', width: 9, textAlign: 'right' }}>R$ 5,00</div>
+						<div style={{ display: 'inline-block', width: 22 }}>Delivery fee:</div>
+						<div style={{ display: 'inline-block', width: 9, textAlign: 'right' }}>$ {deliveryFee}</div>
 					</div>
-					<div style={{ borderBottom: 1 }}>
-						<div style={{ display: 'inline-block', width: 22 }}>Desconto:</div>
-						<div style={{ display: 'inline-block', width: 9, textAlign: 'right' }}>-R$ 4,00</div>
-					</div>
-					<div>
+					<div style={{ borderTop: 1 }}>
 						<div style={{ display: 'inline-block', width: 22 }}>Total:</div>
-						<div style={{ display: 'inline-block', width: 9, textAlign: 'right' }}>R$ 14,00</div>
+						<div style={{ display: 'inline-block', width: 9, textAlign: 'right' }}>$ {total + deliveryFee}</div>
 					</div>
 				</div>
 			</div>
-			<div style={{ paddingTop: 1 }}>Forma de Pagamento</div>
-			<div>
-				{ order.paymentMethod }
-			</div>
-			{ (taxPayerId || changeDue) && <div style={{ paddingTop: 1 }}>Observacoes</div> }
-			{
-				taxPayerId && (
-					<div>
-						<div>INCLUIR CPF NA NOTA FISCAL</div>
-						<div>CPF: {taxPayerId}</div>
-					</div>
-				)
-			}
-			{ changeDue && <div>Levar R$ 10,00 para o troco</div> }
+			<div style={{ paddingTop: 1 }}>Payment method</div>
+			<div>{ order.paymentMethod }</div>
 		</div>
 	);
 };

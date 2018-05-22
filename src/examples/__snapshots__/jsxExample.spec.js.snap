@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Invoice example should match jsx based on object 1`] = `
+"----------------------------------------
+               Order: 1234              
+                                        
+Restaurant: My cool restaurant with big 
+name that occupy two lines              
+Client address: My street with a very   
+very long name, 999 - My neighborhood,  
+My city - AC                            
+Cidade: My city - AC                    
+                                        
+Items                                   
+Qtt  Description                   Price
+2    Big Hamburger with huge      $ 46.9
+     amount of cheese                   
+     1 Some extra cheese and       $ 5.1
+     sauce                              
+     2 Fries                       $ 2.1
+                                        
+3    Ice cream                   $ 13.05
+                                        
+         Parcial:                $ 59.95
+         Delivery fee:            $ 6.05
+         -------------------------------
+         Total:                     $ 66
+                                        
+Payment method                          
+MONEY                                   
+                                        
+                                        "
+`;
