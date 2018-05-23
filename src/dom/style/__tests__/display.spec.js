@@ -1,24 +1,23 @@
-const Element = require('../../elements/Element');
 const Reasciit = require('../../');
+const Element = require('../../elements/Element');
 
 describe('display', () => {
 	const reasciitRender = element => Reasciit.render(element, new Reasciit(40));
 
 	describe('block', () => {
 		it('should render block inside block', () => {
-			const renderedDiv = reasciitRender(new Element({
-				children: new Element({
-					children: 'My text that will probably break this line',
-					style: {
-						textAlign: 'center',
-						display: 'block'
-					}
-				}),
-				style: {
-					width: 20,
-					display: 'block'
-				}
-			}));
+			const renderedDiv = reasciitRender(<div style={{
+				width: 40,
+				display: 'block'
+			}}>
+				<div style={{
+					textAlign: 'center',
+					display: 'block',
+					width: 20
+				}}>
+					My text that will probably break this line
+				</div>
+			</div>);
 			expect(renderedDiv).toEqual([
 				'  My text that will                     ',
 				' probably break this                    ',

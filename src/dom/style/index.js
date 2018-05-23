@@ -78,13 +78,62 @@ const completeBlockBasedOnFirstLine = (matrix) => {
 	return result;
 };
 
+const desmemberSpacialProp = (obj, prop) => {
+	const newObj = { ...obj };
+	const spacialSufixes = ['Top', 'Bottom', 'Left', 'Right'];
+
+	const masterProp = newObj[prop] || 0;
+	spacialSufixes.forEach((sufix) => {
+		const spacialProp = `${prop}${sufix}`;
+		if (!newObj[spacialProp] && masterProp) {
+			newObj[`${prop}${sufix}`] = masterProp;
+		}
+	});
+
+	delete newObj[prop];
+	return newObj;
+};
+
+const desmemberStyle = (style) => {
+	let dismemberedStyle = { ...style };
+	const spacialProps = ['padding', 'border', 'margin'];
+	spacialProps.forEach((prop) => {
+		dismemberedStyle = desmemberSpacialProp(dismemberedStyle, prop);
+	});
+	return dismemberedStyle;
+};
+
 const renderBorders = (matrix, width, style) => {
 	let result = [...matrix];
-	if (style.borderTop) {
-		result = Array(style.borderTop).fill(Array(width).fill('-')).concat(result);
+	const {
+		borderTop,
+		borderBottom,
+		borderLeft,
+		borderRight
+	} = style;
+
+	if (borderTop) {
+		result = Array(borderTop).fill(Array(width).fill('-')).concat(result);
 	}
-	if (style.borderBottom) {
-		result = result.concat(Array(style.borderTop).fill(Array(width).fill('-')));
+	if (borderBottom) {
+		result = result.concat(Array(borderBottom).fill(Array(width).fill('-')));
+	}
+	if (borderLeft) {
+		result = result.map((line, i) => {
+			if ((!i && borderTop) || (i === (result.length - 1) && borderBottom)) {
+				return Array(borderLeft).fill('+').concat(line);
+			}
+			return Array(borderLeft).fill('|').concat(line);
+		});
+	}
+
+	if (borderRight) {
+		result = result.map((line, i) => {
+			if ((!i && borderTop) || (i === (result.length - 1) && borderBottom)) {
+				return line.concat(Array(borderRight).fill('+'));
+			}
+			return line.concat(Array(borderRight).fill('|'));
+		});
 	}
 	return result;
 };
@@ -173,19 +222,25 @@ class Style {
 	}
 
 	static apply(matrix, style, parent) {
+		const verboseStyle = desmemberStyle(style);
 		const { width } = parent;
 		const elementWidth = style.width || width;
 
 		let matrixStyled = matrix;
 		if (style.display === 'block') {
-			matrixStyled = breakLines(matrixStyled, elementWidth, style.wordWrap === 'break-all');
-			matrixStyled = renderPadding(matrixStyled, elementWidth, style);
-			matrixStyled = renderBorders(matrixStyled, elementWidth, style);
-			matrixStyled = alignText(matrixStyled, style, width);
-		} else if (style.display === 'inline-block') {
-			matrixStyled = breakLines(matrixStyled, elementWidth, style.wordWrap === 'break-all');
-			matrixStyled = alignText(matrixStyled, style, elementWidth);
-		} else if (style.display === 'inline') {
+			const contentWidth = elementWidth -
+				['borderLeft', 'borderRight', 'paddingLeft', 'paddingRight']
+					.map(prop => verboseStyle[prop] || 0)
+					.reduce((occupiedWidth, prop) => occupiedWidth + prop, 0);
+
+			matrixStyled = breakLines(matrixStyled, contentWidth, style.wordWrap === 'break-all');
+			matrixStyled = alignText(matrixStyled, verboseStyle, contentWidth);
+			matrixStyled = renderPadding(matrixStyled, elementWidth, verboseStyle);
+			matrixStyled = renderBorders(matrixStyled, contentWidth, verboseStyle);
+		} else if (verboseStyle.display === 'inline-block') {
+			matrixStyled = breakLines(matrixStyled, elementWidth, verboseStyle.wordWrap === 'break-all');
+			matrixStyled = alignText(matrixStyled, verboseStyle, elementWidth);
+		} else if (verboseStyle.display === 'inline') {
 			return matrixStyled;
 		}
 
