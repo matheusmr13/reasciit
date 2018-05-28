@@ -31,12 +31,17 @@ const breakLines = (matrix, width, breakAll) => {
 				const isLastChar = index === (line.length - 1);
 				const shouldBreak = charCountPerLine && charCountPerLine === (width - 1);
 				const shouldBreakCauseNextIsSpace = (shouldBreak && line[index + 1] === ' ');
+				const wordIsTooBigToLine = shouldBreak && (lastLineBegining === (lastSpaceIndex + 1));
 
 				if (isLastChar || shouldBreakCauseNextIsSpace) {
 					lastSpaceIndex = index + 1;
 					ignoreNextSpace = true;
 					newMatrix.push(line.slice(lastLineBegining, lastSpaceIndex));
 					lastLineBegining = lastSpaceIndex + 1;
+				} else if (wordIsTooBigToLine) {
+					newMatrix.push(line.slice(lastLineBegining, index + 1));
+					lastSpaceIndex = index;
+					lastLineBegining = index + 1;
 				} else if (shouldBreak) {
 					newMatrix.push(line.slice(lastLineBegining, lastSpaceIndex));
 					lastLineBegining = lastSpaceIndex + 1;
@@ -140,11 +145,23 @@ const renderBorders = (matrix, width, style) => {
 
 const renderPadding = (matrix, width, style) => {
 	let result = [...matrix];
-	if (style.paddingTop) {
-		result = Array(style.paddingTop).fill(Array(width).fill(' ')).concat(result);
+	const {
+		paddingTop,
+		paddingBottom,
+		paddingLeft,
+		paddingRight
+	} = style;
+	if (paddingTop) {
+		result = Array(paddingTop).fill(Array(width).fill(' ')).concat(result);
 	}
-	if (style.paddingBottom) {
-		result = result.concat(Array(style.paddingBottom).fill(Array(width).fill(' ')));
+	if (paddingBottom) {
+		result = result.concat(Array(paddingBottom).fill(Array(width).fill(' ')));
+	}
+	if (paddingLeft) {
+		result = result.map(line => Array(paddingLeft).fill(' ').concat(line));
+	}
+	if (paddingRight) {
+		result = result.map(line => line.concat(Array(paddingLeft).fill(' ')));
 	}
 	return result;
 };
@@ -235,7 +252,7 @@ class Style {
 
 			matrixStyled = breakLines(matrixStyled, contentWidth, style.wordWrap === 'break-all');
 			matrixStyled = alignText(matrixStyled, verboseStyle, contentWidth);
-			matrixStyled = renderPadding(matrixStyled, elementWidth, verboseStyle);
+			matrixStyled = renderPadding(matrixStyled, contentWidth, verboseStyle);
 			matrixStyled = renderBorders(matrixStyled, contentWidth, verboseStyle);
 		} else if (verboseStyle.display === 'inline-block') {
 			matrixStyled = breakLines(matrixStyled, elementWidth, verboseStyle.wordWrap === 'break-all');
