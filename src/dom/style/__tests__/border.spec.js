@@ -52,4 +52,85 @@ describe('border', () => {
 			'+--------------------------------------+'
 		].join('\n'));
 	});
+	it('should border all sides with extra width', () => {
+		const renderedDiv = reasciitRender(<div
+			style={{ border: 3 }}>
+				My simple text
+		</div>);
+		expect(renderedDiv).toEqual([
+			'+--------------------------------------+',
+			'|+------------------------------------+|',
+			'||+----------------------------------+||',
+			'|||My simple text                    |||',
+			'||+----------------------------------+||',
+			'|+------------------------------------+|',
+			'+--------------------------------------+'
+		].join('\n'));
+	});
+	it('should border all sides with different width on some side', () => {
+		const renderedDiv = reasciitRender(<div
+			style={{ border: 3, borderRight: 1 }}>
+				My simple text
+		</div>);
+		expect(renderedDiv).toEqual([
+			'+---------------------------------------',
+			'|+--------------------------------------',
+			'||+------------------------------------+',
+			'|||My simple text                      |',
+			'||+------------------------------------+',
+			'|+--------------------------------------',
+			'+---------------------------------------'
+		].join('\n'));
+	});
+	it('should border all sides with no width on some corner', () => {
+		const renderedDiv = reasciitRender(<div
+			style={{ border: 3, borderRight: 0, borderBottom: 0 }}>
+				My simple text
+		</div>);
+		expect(renderedDiv).toEqual([
+			'+---------------------------------------',
+			'|+--------------------------------------',
+			'||+-------------------------------------',
+			'|||My simple text                       '
+		].join('\n'));
+	});
+	it('should border all sides with no width on oposite sides', () => {
+		const renderedDiv = reasciitRender(<div
+			style={{ border: 3, borderRight: 0, borderLeft: 0 }}>
+				My simple text
+		</div>);
+		expect(renderedDiv).toEqual([
+			'----------------------------------------',
+			'----------------------------------------',
+			'----------------------------------------',
+			'My simple text                          ',
+			'----------------------------------------',
+			'----------------------------------------',
+			'----------------------------------------'
+		].join('\n'));
+	});
+	it('should border all sides after padding and before margin', () => {
+		const renderedDiv = reasciitRender(<div
+			style={{ border: 3, padding: 3, margin: 1 }}>
+				My simple text with some breaking line
+		</div>);
+		expect(renderedDiv).toEqual([
+			'                                        ',
+			' +------------------------------------+ ',
+			' |+----------------------------------+| ',
+			' ||+--------------------------------+|| ',
+			' |||                                ||| ',
+			' |||                                ||| ',
+			' |||                                ||| ',
+			' |||   My simple text with some     ||| ',
+			' |||   breaking line                ||| ',
+			' |||                                ||| ',
+			' |||                                ||| ',
+			' |||                                ||| ',
+			' ||+--------------------------------+|| ',
+			' |+----------------------------------+| ',
+			' +------------------------------------+ ',
+			'                                        '
+		].join('\n'));
+	});
 });

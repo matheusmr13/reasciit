@@ -90,7 +90,7 @@ const desmemberSpacialProp = (obj, prop) => {
 	const masterProp = newObj[prop] || 0;
 	spacialSufixes.forEach((sufix) => {
 		const spacialProp = `${prop}${sufix}`;
-		if (!newObj[spacialProp] && masterProp) {
+		if (typeof newObj[spacialProp] === 'undefined' && masterProp) {
 			newObj[`${prop}${sufix}`] = masterProp;
 		}
 	});
@@ -108,41 +108,79 @@ const desmemberStyle = (style) => {
 	return dismemberedStyle;
 };
 
-const renderBorders = (matrix, width, style) => {
+const borderAllSides = (matrix, top, right, bottom, left) => {
 	let result = [...matrix];
-	const {
-		borderTop,
-		borderBottom,
-		borderLeft,
-		borderRight
-	} = style;
 
-	if (borderTop) {
-		result = Array(borderTop).fill(Array(width).fill('-')).concat(result);
+	if (top > 0) {
+		result = Array(1).fill(Array(matrix[0].length).fill('-')).concat(result);
 	}
-	if (borderBottom) {
-		result = result.concat(Array(borderBottom).fill(Array(width).fill('-')));
+	if (bottom > 0) {
+		result = result.concat(Array(1).fill(Array(matrix[0].length).fill('-')));
 	}
-	if (borderLeft) {
+	if (left > 0) {
 		result = result.map((line, i) => {
-			if ((!i && borderTop) || (i === (result.length - 1) && borderBottom)) {
-				return Array(borderLeft).fill('+').concat(line);
+			if ((!i && top > 0) || (i === (result.length - 1) && bottom > 0)) {
+				return Array(1).fill('+').concat(line);
 			}
-			return Array(borderLeft).fill('|').concat(line);
+			return Array(1).fill('|').concat(line);
 		});
 	}
-
-	if (borderRight) {
+	if (right > 0) {
 		result = result.map((line, i) => {
-			if ((!i && borderTop) || (i === (result.length - 1) && borderBottom)) {
-				return line.concat(Array(borderRight).fill('+'));
+			if ((!i && top > 0) || (i === (result.length - 1) && bottom > 0)) {
+				return line.concat(Array(1).fill('+'));
 			}
-			return line.concat(Array(borderRight).fill('|'));
+			return line.concat(Array(1).fill('|'));
 		});
 	}
 	return result;
 };
 
+
+const renderBorders = (matrix, width, style) => {
+	let result = [...matrix];
+	const {
+		borderTop = 0,
+		borderBottom = 0,
+		borderLeft = 0,
+		borderRight = 0
+	} = style;
+
+	const maxValue = Math.max(borderTop, borderBottom, borderLeft, borderRight);
+	Array(maxValue).fill(0).forEach((v, index) => {
+		result = borderAllSides(
+			result,
+			borderTop - index,
+			borderRight - index,
+			borderBottom - index,
+			borderLeft - index,
+		);
+	});
+	return result;
+};
+
+const renderMargin = (matrix, width, style) => {
+	let result = [...matrix];
+	const {
+		marginTop,
+		marginBottom,
+		marginLeft,
+		marginRight
+	} = style;
+	if (marginTop) {
+		result = Array(marginTop).fill(Array(matrix[0].length).fill(' ')).concat(result);
+	}
+	if (marginBottom) {
+		result = result.concat(Array(marginBottom).fill(Array(matrix[0].length).fill(' ')));
+	}
+	if (marginLeft) {
+		result = result.map(line => Array(marginLeft).fill(' ').concat(line));
+	}
+	if (marginRight) {
+		result = result.map(line => line.concat(Array(marginLeft).fill(' ')));
+	}
+	return result;
+};
 const renderPadding = (matrix, width, style) => {
 	let result = [...matrix];
 	const {
@@ -246,7 +284,7 @@ class Style {
 		let matrixStyled = matrix;
 		if (style.display === 'block') {
 			const contentWidth = elementWidth -
-				['borderLeft', 'borderRight', 'paddingLeft', 'paddingRight']
+				['borderLeft', 'borderRight', 'paddingLeft', 'paddingRight', 'marginLeft', 'marginRight']
 					.map(prop => verboseStyle[prop] || 0)
 					.reduce((occupiedWidth, prop) => occupiedWidth + prop, 0);
 
@@ -254,6 +292,7 @@ class Style {
 			matrixStyled = alignText(matrixStyled, verboseStyle, contentWidth);
 			matrixStyled = renderPadding(matrixStyled, contentWidth, verboseStyle);
 			matrixStyled = renderBorders(matrixStyled, contentWidth, verboseStyle);
+			matrixStyled = renderMargin(matrixStyled, contentWidth, verboseStyle);
 		} else if (verboseStyle.display === 'inline-block') {
 			matrixStyled = breakLines(matrixStyled, elementWidth, verboseStyle.wordWrap === 'break-all');
 			matrixStyled = alignText(matrixStyled, verboseStyle, elementWidth);
