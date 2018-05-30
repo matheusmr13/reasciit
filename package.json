@@ -7,7 +7,8 @@
 		"test": "jest --watch",
 		"coverage": "jest --watch --coverage",
 		"lint": "eslint .",
-		"hue": "node luana"
+		"app": "webpack-cli",
+		"app:devel": "babel-node ./src/application/index.js"
 	},
 	"repository": {
 		"type": "git",
@@ -27,10 +28,26 @@
 		"url": "https://github.com/matheusmr13/reasciit/issues"
 	},
 	"homepage": "https://github.com/matheusmr13/reasciit#readme",
+	"babel": {
+		"presets": [
+			"@babel/preset-env"
+		],
+		"plugins": [
+			"@babel/plugin-proposal-class-properties",
+			[
+				"transform-react-jsx",
+				{
+					"pragma": "Reasciit.createElement"
+				}
+			]
+		]
+	},
 	"devDependencies": {
-		"@babel/core": "^7.0.0-beta.47",
-		"@babel/plugin-proposal-class-properties": "^7.0.0-beta.47",
-		"@babel/preset-env": "^7.0.0-beta.47",
+		"@babel/node": "^7.0.0-beta.49",
+		"@babel/core": "^7.0.0-beta.49",
+		"@babel/plugin-proposal-class-properties": "^7.0.0-beta.49",
+		"@babel/preset-env": "^7.0.0-beta.49",
+		"@babel/preset-stage-3": "^7.0.0-beta.49",
 		"babel-core": "^7.0.0-bridge.0",
 		"babel-eslint": "^8.2.3",
 		"babel-jest": "^22.4.4",
@@ -40,16 +57,8 @@
 		"eslint-config-airbnb-base": "^12.1.0",
 		"eslint-plugin-import": "^2.11.0",
 		"jest": "^22.4.4",
-		"webpack": "3.8.1"
-	},
-	"babel": {
-		"presets": [
-			"@babel/preset-env"
-		],
-		"plugins": [
-			"@babel/plugin-proposal-class-properties",
-			["transform-react-jsx", { "pragma": "Reasciit.createElement" }]
-		]
+		"webpack": "^4.10.1",
+		"webpack-cli": "^2.1.4"
 	},
 	"dependencies": {
 		"figlet": "^1.2.0",

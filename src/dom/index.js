@@ -1,5 +1,5 @@
-const fs = require('fs');
 const Element = require('./elements/Element');
+const Component = require('./../interaction/Component');
 
 const DOM = {
 	div: require('./elements/Div'),
@@ -9,8 +9,9 @@ const DOM = {
 };
 
 class Reasciit {
-	constructor(columns) {
+	constructor(columns, rows) {
 		this.columns = columns;
+		this.rows = rows;
 		this.promisesToLoad = [];
 	}
 
@@ -19,8 +20,8 @@ class Reasciit {
 	}
 
 	static render(element, window, opts = {}) {
-		if (!(element instanceof Element)) {
-			throw new Error('You must pass and element to render');
+		if (!(element instanceof Element) && !(element instanceof Component)) {
+			throw new Error('You must pass an element to render');
 		}
 		const renderedElements = element.render(window, {
 			width: window.columns
@@ -42,18 +43,6 @@ class Reasciit {
 		return renderedElements;
 	}
 
-	static save(file) {
-		return new Promise((resolve, reject) => {
-			fs.writeFile(file, this.toString(), (err) => {
-				if (err) {
-					reject(err);
-					return;
-				}
-				resolve();
-			});
-		});
-	}
-
 	static createElement(element, props, ...children) {
 		const childrenProcessed = children
 			.filter(child => !!child)
@@ -64,7 +53,7 @@ class Reasciit {
 						...Object.values(actual)
 					];
 				}
-				if (actual instanceof Element) {
+				if (actual instanceof Element || actual.constructor === Component) {
 					return [
 						...reduced,
 						actual
@@ -76,9 +65,26 @@ class Reasciit {
 				];
 			}, []);
 
+		if (element.prototype instanceof Component) {
+			return new element({
+				...props,
+				children: childrenProcessed
+			});
+		}
+
 		return new (DOM[element])({
 			...props,
 			children: childrenProcessed
+		});
+	}
+
+	static createApp(element) {
+		// console.info(element);
+		Component.redraw = () => {
+			console.info(this.render(element, new Reasciit(process.stdout.columns, process.stdout.rows)));
+		};
+		return new Promise(() => {
+			Component.redraw();
 		});
 	}
 }

@@ -1,0 +1,34 @@
+const { default: Reasciit } = require('./../');
+const { Component } = require('./../');
+
+class App extends Component {
+	constructor() {
+		super();
+		this.state = {
+			initial: new Date(),
+			time: new Date()
+		};
+		this.startTimer();
+	}
+
+	startTimer() {
+		const UPDATE_RATE = 2000;
+		setInterval(() => {
+			this.setState({
+				time: new Date()
+			});
+		}, UPDATE_RATE);
+	}
+
+	_render() {
+		const { time, initial } = this.state;
+		return (
+			<div>
+				<div>{ time }</div>
+				<div>Uptime {(time.getTime() - initial.getTime()) / 1000}s</div>
+			</div>
+		);
+	}
+}
+
+module.exports = App;
