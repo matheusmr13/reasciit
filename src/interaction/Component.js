@@ -6,7 +6,7 @@ class Component {
 	props = {};
 
 	render(window, parent) {
-		this.width = 100;
+		this.width = parent.width;
 		const children = this._render();
 		const style = {};
 

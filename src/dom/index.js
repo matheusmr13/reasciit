@@ -79,9 +79,12 @@ class Reasciit {
 	}
 
 	static createApp(element) {
-		// console.info(element);
+		process.stdout.on('resize', () => {
+			Component.redraw();
+		});
 		Component.redraw = () => {
-			console.info(this.render(element, new Reasciit(process.stdout.columns, process.stdout.rows)));
+			process.stdout.write('\x1b[H\x1b[J');
+			process.stdout.write(this.render(element, new Reasciit(process.stdout.columns, process.stdout.rows)));
 		};
 		return new Promise(() => {
 			Component.redraw();

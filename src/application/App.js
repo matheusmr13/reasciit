@@ -23,9 +23,11 @@ class App extends Component {
 	_render() {
 		const { time, initial } = this.state;
 		return (
-			<div>
-				<div>{ time }</div>
-				<div>Uptime {(time.getTime() - initial.getTime()) / 1000}s</div>
+			<div style={{ textAlign: 'center' }}>
+				<div style={{ border: 2, padding: 5, width: 70 }}>
+					<div style={{ width: 50 }}>{time}</div>
+					<div>Uptime {(time.getTime() - initial.getTime()) / 1000}s</div>
+				</div>
 			</div>
 		);
 	}
