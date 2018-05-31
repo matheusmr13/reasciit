@@ -1,4 +1,4 @@
-const Reasciit = require('../../');
+const Reasciit = require('reasciit');
 
 describe('textAlign', () => {
 	const render = element => Reasciit.render(element, new Reasciit(40));

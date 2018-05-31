@@ -1,5 +1,5 @@
-const { default: Reasciit } = require('./../');
-const { Component } = require('./../');
+const Reasciit = require('reasciit');
+const Component = require('reasciit/Component');
 
 class App extends Component {
 	constructor() {

@@ -1,4 +1,4 @@
-const Reasciit = require('../../');
+const Reasciit = require('reasciit');
 
 describe('margin', () => {
 	const reasciitRender = element => Reasciit.render(element, new Reasciit(40));

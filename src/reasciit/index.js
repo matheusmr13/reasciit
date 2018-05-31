@@ -1,11 +1,11 @@
-const Element = require('./elements/Element');
-const Component = require('./../interaction/Component');
+const Element = require('dom/elements/Element');
+const Component = require('./Component');
 
 const DOM = {
-	div: require('./elements/Div'),
-	hr: require('./elements/Hr'),
-	span: require('./elements/Span'),
-	img: require('./elements/Img')
+	div: require('dom/elements/Div'),
+	hr: require('dom/elements/Hr'),
+	span: require('dom/elements/Span'),
+	img: require('dom/elements/Img')
 };
 
 class Reasciit {

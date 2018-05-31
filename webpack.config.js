@@ -33,5 +33,8 @@ module.exports = {
 				loader: require.resolve('babel-loader')
 			}
 		]
+	},
+	alias: {
+		reasciit: path.resolve(__dirname, 'src/reasciit/')
 	}
 };

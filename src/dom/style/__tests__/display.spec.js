@@ -1,4 +1,4 @@
-const Reasciit = require('../../');
+const Reasciit = require('reasciit');
 const Element = require('../../elements/Element');
 
 describe('display', () => {

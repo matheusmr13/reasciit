@@ -4,11 +4,11 @@
 	"description": "ASCII documents with simple DOM anottations.",
 	"main": "index.js",
 	"scripts": {
-		"test": "jest --watch",
+		"test": "NODE_PATH=./src/ jest --watch",
 		"coverage": "jest --watch --coverage",
 		"lint": "eslint .",
 		"app": "webpack-cli",
-		"app:devel": "babel-node ./src/application/index.js"
+		"app:devel": "NODE_PATH=./src/ babel-node ./src/application/index.js"
 	},
 	"repository": {
 		"type": "git",
@@ -43,8 +43,8 @@
 		]
 	},
 	"devDependencies": {
-		"@babel/node": "^7.0.0-beta.49",
 		"@babel/core": "^7.0.0-beta.49",
+		"@babel/node": "^7.0.0-beta.49",
 		"@babel/plugin-proposal-class-properties": "^7.0.0-beta.49",
 		"@babel/preset-env": "^7.0.0-beta.49",
 		"@babel/preset-stage-3": "^7.0.0-beta.49",
@@ -55,7 +55,6 @@
 		"babel-plugin-transform-react-jsx": "^6.24.1",
 		"eslint": "^4.19.1",
 		"eslint-config-airbnb-base": "^12.1.0",
-		"eslint-plugin-import": "^2.11.0",
 		"jest": "^22.4.4",
 		"webpack": "^4.10.1",
 		"webpack-cli": "^2.1.4"

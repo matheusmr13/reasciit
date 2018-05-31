@@ -1,5 +1,5 @@
 const jsxTemplate = require('./jsxExample');
-const Reasciit = require('./../dom');
+const Reasciit = require('reasciit');
 
 const order = {
 	id: '1234',
