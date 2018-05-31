@@ -1,5 +1,4 @@
-const Element = require('terminom/elements/Element');
-const Component = require('./Component');
+const Element = require('terminom/core/Element');
 
 const DOM = {
 	div: require('terminom/elements/Div'),
@@ -8,7 +7,7 @@ const DOM = {
 	img: require('terminom/elements/Img')
 };
 
-class Reasciit {
+class Terminom {
 	constructor(columns, rows) {
 		this.columns = columns;
 		this.rows = rows;
@@ -20,7 +19,7 @@ class Reasciit {
 	}
 
 	static render(element, window, opts = {}) {
-		if (!(element instanceof Element) && !(element instanceof Component)) {
+		if (!(element instanceof Element)) {
 			throw new Error('You must pass an element to render');
 		}
 		const renderedElements = element.render(window, {
@@ -53,7 +52,7 @@ class Reasciit {
 						...Object.values(actual)
 					];
 				}
-				if (actual instanceof Element || actual.constructor === Component) {
+				if (actual instanceof Element) {
 					return [
 						...reduced,
 						actual
@@ -65,31 +64,11 @@ class Reasciit {
 				];
 			}, []);
 
-		if (element.prototype instanceof Component) {
-			return new element({
-				...props,
-				children: childrenProcessed
-			});
-		}
-
 		return new (DOM[element])({
 			...props,
 			children: childrenProcessed
 		});
 	}
-
-	static createApp(element) {
-		process.stdout.on('resize', () => {
-			Component.redraw();
-		});
-		Component.redraw = () => {
-			process.stdout.write('\x1b[H\x1b[J');
-			process.stdout.write(this.render(element, new Reasciit(process.stdout.columns, process.stdout.rows)));
-		};
-		return new Promise(() => {
-			Component.redraw();
-		});
-	}
 }
 
-module.exports = Reasciit;
+module.exports = Terminom;

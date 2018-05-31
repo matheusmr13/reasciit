@@ -8,7 +8,8 @@
 		"coverage": "jest --watch --coverage",
 		"lint": "eslint .",
 		"app": "webpack-cli",
-		"app:devel": "NODE_PATH=./src/ babel-node ./src/application/index.js"
+		"app:devel": "NODE_PATH=./src/ babel-node ./src/application/index.js",
+		"static:devel": "NODE_PATH=./src/ babel-node ./src/application/StaticApp.js"
 	},
 	"repository": {
 		"type": "git",

@@ -1,4 +1,4 @@
-const Element = require('./Element');
+const Element = require('terminom/core/Element');
 
 class Div extends Element {
 	static defaultStyle = {
