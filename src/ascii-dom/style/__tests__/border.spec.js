@@ -1,7 +1,7 @@
 const Reasciit = require('reasciit');
 
 describe('border', () => {
-	const reasciitRender = element => Reasciit.render(element, new Reasciit(40));
+	const reasciitRender = element => Reasciit.renderToString(element, new Reasciit(40));
 
 	it('should border on top', () => {
 		const renderedDiv = reasciitRender(<div

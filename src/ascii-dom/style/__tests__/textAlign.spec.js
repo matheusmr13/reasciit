@@ -1,7 +1,7 @@
 const Reasciit = require('reasciit');
 
 describe('textAlign', () => {
-	const render = element => Reasciit.render(element, new Reasciit(40));
+	const render = element => Reasciit.renderToString(element, new Reasciit(40));
 	const LONG_TEXT = 'My text that will probably breakthisline and then get to secondlineandif we continue maybe breaktoanotherand another line';
 	const SHORT_TEXT = 'My text';
 

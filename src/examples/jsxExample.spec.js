@@ -1,5 +1,5 @@
-const jsxTemplate = require('./jsxExample');
-const Reasciit = require('reasciit');
+import Reasciit from 'reasciit';
+import jsxTemplate from './jsxExample';
 
 const order = {
 	id: '1234',
@@ -38,7 +38,7 @@ const order = {
 
 describe('Invoice example', () => {
 	it('should match jsx based on object', () => {
-		const rendered = Reasciit.render(jsxTemplate(order), new Reasciit(40));
+		const rendered = Reasciit.renderToString(jsxTemplate(order), new Reasciit(40));
 		expect(rendered).toMatchSnapshot();
 	});
 });

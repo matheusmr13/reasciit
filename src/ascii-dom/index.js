@@ -18,7 +18,7 @@ class AsciiDom {
 		this.promisesToLoad.push(promise);
 	}
 
-	static render(element, window, opts = {}) {
+	static renderToString(element, window, opts = {}) {
 		if (!(element instanceof Element)) {
 			throw new Error('You must pass an element to render');
 		}

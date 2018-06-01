@@ -20,7 +20,7 @@ class Reasciit {
 		this.promisesToLoad.push(promise);
 	}
 
-	static render(element, window, opts = {}) {
+	static renderToString(element, window, opts = {}) {
 		if (!(element instanceof Element) && !(element instanceof Component)) {
 			throw new Error('You must pass an element to render');
 		}
@@ -79,13 +79,13 @@ class Reasciit {
 		});
 	}
 
-	static createApp(element) {
+	static render(element) {
 		process.stdout.on('resize', () => {
 			Component.redraw();
 		});
 		Component.redraw = () => {
 			process.stdout.write('\x1b[H\x1b[J');
-			process.stdout.write(this.render(element, new Reasciit(process.stdout.columns, process.stdout.rows)));
+			process.stdout.write(this.renderToString(element, new Reasciit(process.stdout.columns, process.stdout.rows)));
 		};
 		return new Promise(() => {
 			Component.redraw();

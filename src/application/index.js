@@ -1,6 +1,6 @@
 const Reasciit = require('reasciit');
 const App = require('./App');
 
-Reasciit.createApp(<App />).then(() => {
+Reasciit.render(<App />).then(() => {
 	process.exit(1);
 });

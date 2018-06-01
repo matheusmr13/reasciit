@@ -9,4 +9,4 @@ const StaticApp = () => (
 	</div>
 );
 
-console.info(Reasciit.renderToString(<StaticApp />));
+export default StaticApp;

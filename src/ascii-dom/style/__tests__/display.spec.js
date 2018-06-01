@@ -2,7 +2,7 @@ const Reasciit = require('reasciit');
 const Element = require('ascii-dom/core/Element');
 
 describe('display', () => {
-	const reasciitRender = element => Reasciit.render(element, new Reasciit(40));
+	const reasciitRender = element => Reasciit.renderToString(element, new Reasciit(40));
 
 	describe('block', () => {
 		it('should render block inside block', () => {

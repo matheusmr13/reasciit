@@ -9,7 +9,8 @@
 		"lint": "eslint .",
 		"app": "webpack-cli",
 		"app:devel": "NODE_PATH=./src/ babel-node ./src/application/index.js",
-		"static:devel": "NODE_PATH=./src/ babel-node ./src/application/StaticApp.js"
+		"static:devel": "NODE_PATH=./src/ babel-node ./src/application/StaticApp.js",
+		"render": "NODE_PATH=./src/ babel-node ./src/application/renderToString.js"
 	},
 	"repository": {
 		"type": "git",
