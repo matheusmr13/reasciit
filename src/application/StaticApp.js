@@ -1,4 +1,4 @@
-const Terminom = require('terminom');
+const Reasciit = require('reasciit');
 
 const StaticApp = () => (
 	<div style={{ textAlign: 'center' }}>
@@ -9,6 +9,4 @@ const StaticApp = () => (
 	</div>
 );
 
-console.info(StaticApp());
-
-module.exports = StaticApp;
+console.info(Reasciit.renderToString(<StaticApp />));

@@ -1,4 +1,4 @@
-const Element = require('terminom/core/Element');
+const Element = require('ascii-dom/core/Element');
 
 class Div extends Element {
 	static defaultStyle = {

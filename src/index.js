@@ -1,4 +1,4 @@
-const Reasciit = require('./dom');
+const Reasciit = require('ascii-dom');
 const Component = require('./interaction/Component');
 
 module.exports = {

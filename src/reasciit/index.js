@@ -1,11 +1,12 @@
-const Element = require('terminom/elements/Element');
+import Element from 'ascii-dom/core/Element';
+
 const Component = require('./Component');
 
 const DOM = {
-	div: require('terminom/elements/Div'),
-	hr: require('terminom/elements/Hr'),
-	span: require('terminom/elements/Span'),
-	img: require('terminom/elements/Img')
+	div: require('ascii-dom/elements/Div'),
+	hr: require('ascii-dom/elements/Hr'),
+	span: require('ascii-dom/elements/Span'),
+	img: require('ascii-dom/elements/Img')
 };
 
 class Reasciit {

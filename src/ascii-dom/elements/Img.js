@@ -1,5 +1,5 @@
 
-const Element = require('terminom/core/Element');
+const Element = require('ascii-dom/core/Element');
 const imageToAscii = require('image-to-ascii');
 
 class Img extends Element {

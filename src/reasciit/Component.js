@@ -1,5 +1,5 @@
-const Style = require('./../dom/style');
-const Element = require('./../dom/elements/Element');
+const Style = require('ascii-dom/style');
+const Element = require('ascii-dom/core/Element');
 
 class Component {
 	state = {};

@@ -1,10 +1,12 @@
 {
-	"extends": "airbnb-base",
+	"extends": "airbnb",
 	"parser": "babel-eslint",
 	"rules": {
 		"indent": [2, "tab"],
 		"no-tabs": 0,
-		"comma-dangle": ["error", "never"]
+		"comma-dangle": ["error", "never"],
+		"react/jsx-indent": [2, "tab"],
+		"react/jsx-indent-props": [2, "tab"]
 	},
 	"env": {
 		"browser": true,
@@ -13,8 +15,11 @@
 	"settings": {
 		"import/resolver": {
 			"node": {
-				"paths": ["src/"]
+				"paths": ["./src/"]
 			}
+		},
+		"react": {
+			"pragma": "Reasciit"
 		}
 	}
 }

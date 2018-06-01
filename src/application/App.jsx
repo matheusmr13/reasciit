@@ -1,4 +1,5 @@
-const Reasciit = require('reasciit');
+import Reasciit from 'reasciit';
+
 const Component = require('reasciit/Component');
 
 class App extends Component {

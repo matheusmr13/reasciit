@@ -1,4 +1,4 @@
-const Element = require('../Element');
+import Element from 'ascii-dom/core/Element';
 
 class MyCustomElement extends Element {
 	static defaultStyle = {

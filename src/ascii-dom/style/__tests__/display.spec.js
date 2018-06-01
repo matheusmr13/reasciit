@@ -1,5 +1,5 @@
 const Reasciit = require('reasciit');
-const Element = require('../../elements/Element');
+const Element = require('ascii-dom/core/Element');
 
 describe('display', () => {
 	const reasciitRender = element => Reasciit.render(element, new Reasciit(40));

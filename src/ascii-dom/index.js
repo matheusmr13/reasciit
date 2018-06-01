@@ -1,13 +1,13 @@
-const Element = require('terminom/core/Element');
+const Element = require('ascii-dom/core/Element');
 
 const DOM = {
-	div: require('terminom/elements/Div'),
-	hr: require('terminom/elements/Hr'),
-	span: require('terminom/elements/Span'),
-	img: require('terminom/elements/Img')
+	div: require('ascii-dom/elements/Div'),
+	hr: require('ascii-dom/elements/Hr'),
+	span: require('ascii-dom/elements/Span'),
+	img: require('ascii-dom/elements/Img')
 };
 
-class Terminom {
+class AsciiDom {
 	constructor(columns, rows) {
 		this.columns = columns;
 		this.rows = rows;
@@ -71,4 +71,4 @@ class Terminom {
 	}
 }
 
-module.exports = Terminom;
+module.exports = AsciiDom;
