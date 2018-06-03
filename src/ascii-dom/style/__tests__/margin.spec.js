@@ -5,7 +5,8 @@ describe('margin', () => {
 
 	it('should margin on top', () => {
 		const renderedDiv = reasciitRender(<div
-			style={{ marginTop: 1 }}>
+			style={{ marginTop: 1 }}
+		>
 				My simple text
 		</div>);
 		expect(renderedDiv).toEqual([
@@ -15,7 +16,8 @@ describe('margin', () => {
 	});
 	it('should margin on bottom', () => {
 		const renderedDiv = reasciitRender(<div
-			style={{ marginBottom: 1 }}>
+			style={{ marginBottom: 1 }}
+		>
 				My simple text
 		</div>);
 		expect(renderedDiv).toEqual([
@@ -25,7 +27,8 @@ describe('margin', () => {
 	});
 	it('should margin on left', () => {
 		const renderedDiv = reasciitRender(<div
-			style={{ marginLeft: 1 }}>
+			style={{ marginLeft: 1 }}
+		>
 				My simple text
 		</div>);
 		expect(renderedDiv).toEqual([
@@ -34,7 +37,8 @@ describe('margin', () => {
 	});
 	it('should margin on right', () => {
 		const renderedDiv = reasciitRender(<div
-			style={{ marginRight: 1, textAlign: 'right' }}>
+			style={{ marginRight: 1, textAlign: 'right' }}
+		>
 				My simple text
 		</div>);
 		expect(renderedDiv).toEqual([
@@ -43,7 +47,8 @@ describe('margin', () => {
 	});
 	it('should margin all sides', () => {
 		const renderedDiv = reasciitRender(<div
-			style={{ margin: 1 }}>
+			style={{ margin: 1 }}
+		>
 				My simple text
 		</div>);
 		expect(renderedDiv).toEqual([

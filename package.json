@@ -7,6 +7,7 @@
 		"test": "NODE_PATH=./src/ jest --watch",
 		"coverage": "jest --watch --coverage",
 		"lint": "eslint .",
+		"lint:fix": "preetier",
 		"app": "webpack-cli",
 		"app:devel": "NODE_PATH=./src/ babel-node ./src/application/index.js",
 		"static:devel": "NODE_PATH=./src/ babel-node ./src/application/StaticApp.js",
@@ -63,6 +64,7 @@
 		"eslint-plugin-jsx-a11y": "^6.0.3",
 		"eslint-plugin-react": "^7.8.2",
 		"jest": "^22.4.4",
+		"prettier": "1.13.4",
 		"webpack": "^4.10.1",
 		"webpack-cli": "^2.1.4"
 	},

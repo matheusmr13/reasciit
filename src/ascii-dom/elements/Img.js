@@ -13,7 +13,7 @@ class Img extends Element {
 			return this.loadedImg.split('\n').map(line => line.split(''));
 		}
 
-		//TODO maybe use asciify ?
+		// TODO maybe use asciify ?
 
 		window.addPromiseToLoad(new Promise((resolve, reject) => {
 			console.info(style.width, parent.width);

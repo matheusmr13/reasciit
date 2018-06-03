@@ -6,15 +6,18 @@ describe('display', () => {
 
 	describe('block', () => {
 		it('should render block inside block', () => {
-			const renderedDiv = reasciitRender(<div style={{
-				width: 40,
-				display: 'block'
-			}}>
+			const renderedDiv = reasciitRender(<div
+				style={{
+					width: 40,
+					display: 'block'
+				}}
+			>
 				<div style={{
 					textAlign: 'center',
 					display: 'block',
 					width: 20
-				}}>
+				}}
+				>
 					My text that will probably break this line
 				</div>
 			</div>);

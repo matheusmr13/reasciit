@@ -5,7 +5,8 @@ describe('padding', () => {
 
 	it('should padding on top', () => {
 		const renderedDiv = reasciitRender(<div
-			style={{ paddingTop: 1 }}>
+			style={{ paddingTop: 1 }}
+		>
 				My simple text
 		</div>);
 		expect(renderedDiv).toEqual([
@@ -15,7 +16,8 @@ describe('padding', () => {
 	});
 	it('should padding on bottom', () => {
 		const renderedDiv = reasciitRender(<div
-			style={{ paddingBottom: 1 }}>
+			style={{ paddingBottom: 1 }}
+		>
 				My simple text
 		</div>);
 		expect(renderedDiv).toEqual([
@@ -25,7 +27,8 @@ describe('padding', () => {
 	});
 	it('should padding on left', () => {
 		const renderedDiv = reasciitRender(<div
-			style={{ paddingLeft: 1 }}>
+			style={{ paddingLeft: 1 }}
+		>
 				My simple text
 		</div>);
 		expect(renderedDiv).toEqual([
@@ -34,7 +37,8 @@ describe('padding', () => {
 	});
 	it('should padding on right', () => {
 		const renderedDiv = reasciitRender(<div
-			style={{ paddingRight: 1, textAlign: 'right' }}>
+			style={{ paddingRight: 1, textAlign: 'right' }}
+		>
 				My simple text
 		</div>);
 		expect(renderedDiv).toEqual([
@@ -43,7 +47,8 @@ describe('padding', () => {
 	});
 	it('should padding all sides', () => {
 		const renderedDiv = reasciitRender(<div
-			style={{ padding: 1 }}>
+			style={{ padding: 1 }}
+		>
 				My simple text
 		</div>);
 		expect(renderedDiv).toEqual([

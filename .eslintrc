@@ -7,7 +7,10 @@
 		"comma-dangle": ["error", "never"],
 		"react/jsx-indent": [2, "tab"],
 		"react/jsx-indent-props": [2, "tab"],
-		"react/no-deprecated": 0
+		"react/no-deprecated": 0,
+		"react/jsx-filename-extension": [1, {
+      		"extensions": [".test.js", ".jsx", "js"]
+    	}]
 	},
 	"env": {
 		"browser": true,

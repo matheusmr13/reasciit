@@ -10,6 +10,6 @@ class Reasciit {
 
 	draw() {
 		this.clear();
-		process.stdout.write()
+		process.stdout.write();
 	}
 }
