@@ -7,11 +7,12 @@
 		"test": "NODE_PATH=./src/ jest --watch",
 		"coverage": "jest --watch --coverage",
 		"lint": "eslint .",
-		"lint:fix": "preetier",
+		"lint:fix": "eslint . --fix",
 		"app": "webpack-cli",
 		"app:devel": "NODE_PATH=./src/ babel-node ./src/application/index.js",
 		"static:devel": "NODE_PATH=./src/ babel-node ./src/application/StaticApp.js",
-		"render": "NODE_PATH=./src/ babel-node ./src/application/renderToString.js"
+		"render": "NODE_PATH=./src/ babel-node ./src/application/renderToString.js",
+		"window": "NODE_PATH=./src/ babel-node ./src/application/WindowApplication.js"
 	},
 	"repository": {
 		"type": "git",

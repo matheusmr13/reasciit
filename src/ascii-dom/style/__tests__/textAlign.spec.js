@@ -7,15 +7,19 @@ describe('textAlign', () => {
 
 	describe('left', () => {
 		it('should render simple text in left', () => {
-			const renderedDiv = render(<div style={{ textAlign: 'left' }}>
-				{SHORT_TEXT}
-			</div>);
+			const renderedDiv = render((
+				<div style={{ textAlign: 'left' }}>
+					{SHORT_TEXT}
+				</div>
+			));
 			expect(renderedDiv).toEqual('My text                                 ');
 		});
 		it('should render long text in left', () => {
-			const renderedDiv = render(<div style={{ textAlign: 'left' }}>
-				{LONG_TEXT}
-			</div>);
+			const renderedDiv = render((
+				<div style={{ textAlign: 'left' }}>
+					{LONG_TEXT}
+				</div>
+			));
 			expect(renderedDiv).toEqual([
 				'My text that will probably breakthisline',
 				'and then get to secondlineandif we      ',
@@ -26,15 +30,19 @@ describe('textAlign', () => {
 	});
 	describe('center', () => {
 		it('should render simple text in center', () => {
-			const renderedDiv = render(<div style={{ textAlign: 'center' }}>
-				{SHORT_TEXT}
-			</div>);
+			const renderedDiv = render((
+				<div style={{ textAlign: 'center' }}>
+					{SHORT_TEXT}
+				</div>
+			));
 			expect(renderedDiv).toEqual('                 My text                ');
 		});
 		it('should render long text in center', () => {
-			const renderedDiv = render(<div style={{ textAlign: 'center' }}>
-				{LONG_TEXT}
-			</div>);
+			const renderedDiv = render((
+				<div style={{ textAlign: 'center' }}>
+					{LONG_TEXT}
+				</div>
+			));
 			expect(renderedDiv).toEqual([
 				'My text that will probably breakthisline',
 				'   and then get to secondlineandif we   ',
@@ -45,15 +53,19 @@ describe('textAlign', () => {
 	});
 	describe('right', () => {
 		it('should render simple text in right', () => {
-			const renderedDiv = render(<div style={{ textAlign: 'right' }}>
-				{SHORT_TEXT}
-			</div>);
+			const renderedDiv = render((
+				<div style={{ textAlign: 'right' }}>
+					{SHORT_TEXT}
+				</div>
+			));
 			expect(renderedDiv).toEqual('                                 My text');
 		});
 		it('should render long text in right', () => {
-			const renderedDiv = render(<div style={{ textAlign: 'right' }}>
-				{LONG_TEXT}
-			</div>);
+			const renderedDiv = render((
+				<div style={{ textAlign: 'right' }}>
+					{LONG_TEXT}
+				</div>
+			));
 			expect(renderedDiv).toEqual([
 				'My text that will probably breakthisline',
 				'      and then get to secondlineandif we',
@@ -64,17 +76,19 @@ describe('textAlign', () => {
 	});
 	describe('multiple values', () => {
 		it('should render child element in center with different alignments on child', () => {
-			const renderedDiv = render(<div style={{ textAlign: 'center' }}>
-				<div style={{ width: 20 }}>
-					My text with two lines
+			const renderedDiv = render((
+				<div style={{ textAlign: 'center' }}>
+					<div style={{ width: 20 }}>
+						My text with two lines
+					</div>
+					<div style={{ width: 20, textAlign: 'center' }}>
+						My text with two lines
+					</div>
+					<div style={{ width: 20, textAlign: 'right' }}>
+						My text with two lines
+					</div>
 				</div>
-				<div style={{ width: 20, textAlign: 'center' }}>
-					My text with two lines
-				</div>
-				<div style={{ width: 20, textAlign: 'right' }}>
-					My text with two lines
-				</div>
-			</div>);
+			));
 			expect(renderedDiv).toEqual([
 				'          My text with two              ',
 				'          lines                         ',

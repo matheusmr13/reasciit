@@ -6,4 +6,4 @@ class Span extends Element {
 	}
 }
 
-module.exports = Span;
+export default Span;

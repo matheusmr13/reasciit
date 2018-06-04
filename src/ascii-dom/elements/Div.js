@@ -6,4 +6,4 @@ class Div extends Element {
 	}
 }
 
-module.exports = Div;
+export default Div;

@@ -39,4 +39,4 @@ class Img extends Element {
 	}
 }
 
-module.exports = Img;
+export default Img;

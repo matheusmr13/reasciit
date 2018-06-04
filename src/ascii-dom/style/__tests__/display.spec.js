@@ -6,21 +6,24 @@ describe('display', () => {
 
 	describe('block', () => {
 		it('should render block inside block', () => {
-			const renderedDiv = reasciitRender(<div
-				style={{
-					width: 40,
-					display: 'block'
-				}}
-			>
-				<div style={{
-					textAlign: 'center',
-					display: 'block',
-					width: 20
-				}}
+			const element = (
+				<div
+					style={{
+						width: 40,
+						display: 'block'
+					}}
 				>
-					My text that will probably break this line
+					<div style={{
+						textAlign: 'center',
+						display: 'block',
+						width: 20
+					}}
+					>
+						My text that will probably break this line
+					</div>
 				</div>
-			</div>);
+			);
+			const renderedDiv = reasciitRender(element);
 			expect(renderedDiv).toEqual([
 				'  My text that will                     ',
 				' probably break this                    ',

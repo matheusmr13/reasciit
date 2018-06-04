@@ -7,4 +7,4 @@ class Hr extends Element {
 	}
 }
 
-module.exports = Hr;
+export default Hr;

@@ -1,12 +1,19 @@
 import Element from 'ascii-dom/core/Element';
 
+import div from 'ascii-dom/elements/Div';
+import hr from 'ascii-dom/elements/Hr';
+import span from 'ascii-dom/elements/Span';
+import img from 'ascii-dom/elements/Img';
+import input from 'ascii-dom/elements/Input';
+
 const Component = require('./Component');
 
-const DOM = {
-	div: require('ascii-dom/elements/Div'),
-	hr: require('ascii-dom/elements/Hr'),
-	span: require('ascii-dom/elements/Span'),
-	img: require('ascii-dom/elements/Img')
+const Elements = {
+	div,
+	hr,
+	span,
+	img,
+	input
 };
 
 class Reasciit {
@@ -73,7 +80,7 @@ class Reasciit {
 			});
 		}
 
-		return new (DOM[element])({
+		return new (Elements[element])({
 			...props,
 			children: childrenProcessed
 		});
