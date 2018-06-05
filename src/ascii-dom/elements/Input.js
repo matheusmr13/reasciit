@@ -15,6 +15,13 @@ class Input extends Focusable {
 	sendEvent(event) {
 		if (event.type === 'key') {
 			this.value = `${this.value}${event.key}`;
+
+			const { onChange } = this.props;
+			if (onChange) {
+				onChange();
+			}
+		} else if (event.type === 'backspace') {
+			this.value = this.value.substring(0, this.value.length - 1);
 		}
 		this.window.redraw();
 	}

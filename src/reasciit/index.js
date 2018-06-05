@@ -67,6 +67,12 @@ class Reasciit {
 						actual
 					];
 				}
+				if (Array.isArray(actual)) {
+					return [
+						...reduced,
+						...actual
+					];
+				}
 				return [
 					...reduced,
 					actual.toString()

@@ -2,17 +2,31 @@ import Window from 'ascii-dom/core/Window';
 
 const Reasciit = require('reasciit');
 
+const window = new Window(process.stdout, process.stdin, {
+	openDevTools: true
+});
+const events = [];
+
 const onChange = (value) => {
-	console.info(`Change: ${value}`);
+	events.push(`Change: ${value}`);
 };
 
 const onFocus = (value) => {
-	console.info(`Focus: ${value}`);
+	events.push(`Focus: ${value}`);
 };
 
 const app = (
 	<div>
-		<div style={{ border: 1, marginBottom: 2 }}>Teste de input</div>
+		<div style={{ border: 1, marginBottom: 2 }}>
+			<div>Eventos</div>
+			{
+				events.map(event => (
+					<div>
+						{event}
+					</div>
+				))
+			}
+		</div>
 		<input
 			onChange={onChange}
 			onFocus={onFocus}
@@ -28,6 +42,4 @@ const app = (
 	</div>
 );
 
-const window = new Window(process.stdout, process.stdin);
-window.render(app).then(() => {
-});
+window.render(app);

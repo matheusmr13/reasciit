@@ -112,25 +112,31 @@ const borderAllSides = (matrix, top, right, bottom, left) => {
 	let result = [...matrix];
 
 	if (top > 0) {
-		result = Array(1).fill(Array(matrix[0].length).fill('-')).concat(result);
+		result = Array(1).fill(Array(matrix[0].length).fill('\u2500')).concat(result);
 	}
 	if (bottom > 0) {
-		result = result.concat(Array(1).fill(Array(matrix[0].length).fill('-')));
+		result = result.concat(Array(1).fill(Array(matrix[0].length).fill('\u2500')));
 	}
 	if (left > 0) {
 		result = result.map((line, i) => {
 			if ((!i && top > 0) || (i === (result.length - 1) && bottom > 0)) {
-				return Array(1).fill('+').concat(line);
+				if (!i) {
+					return Array(1).fill('\u250C').concat(line);
+				}
+				return Array(1).fill('\u2514').concat(line);
 			}
-			return Array(1).fill('|').concat(line);
+			return Array(1).fill('\u2502').concat(line);
 		});
 	}
 	if (right > 0) {
 		result = result.map((line, i) => {
 			if ((!i && top > 0) || (i === (result.length - 1) && bottom > 0)) {
-				return line.concat(Array(1).fill('+'));
+				if (i) {
+					return line.concat(Array(1).fill('\u2518'));
+				}
+				return line.concat(Array(1).fill('\u2510'));
 			}
-			return line.concat(Array(1).fill('|'));
+			return line.concat(Array(1).fill('\u2502'));
 		});
 	}
 	return result;
@@ -297,9 +303,13 @@ class Style {
 			matrixStyled = breakLines(matrixStyled, elementWidth, verboseStyle.wordWrap === 'break-all');
 			matrixStyled = alignText(matrixStyled, verboseStyle, elementWidth);
 		} else if (verboseStyle.display === 'inline') {
-			return matrixStyled;
+			// return matrixStyled;
 		}
 
+		if (verboseStyle.heigth) {
+			const height = matrixStyled.lenght;
+			matrixStyled = matrixStyled.concat(Array(height).fill(Array(matrixStyled[0].lenght).fill(' ')));
+		}
 		return matrixStyled;
 	}
 }

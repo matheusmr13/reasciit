@@ -1,5 +1,7 @@
+import { spawn } from 'child_process';
 import Focusable from 'ascii-dom/core/Focusable';
 import Element from 'ascii-dom/core/Element';
+import DevTools from './DevTools';
 
 const getFocusableChildren = (element) => {
 	const focusableFromChildren = (element.props.children || [])
@@ -17,7 +19,7 @@ const getFocusableChildren = (element) => {
 };
 
 class Window {
-	constructor(stdout, stdin) {
+	constructor(stdout, stdin, opts = {}) {
 		this.stdout = stdout;
 		this.stdin = stdin;
 		this.focusedElement = null;
@@ -25,6 +27,10 @@ class Window {
 		this.tabIndex = -1;
 		this.width = this.stdout.columns;
 		this.heigth = this.stdout.rows;
+
+		if (opts.openDevTools) {
+			console.info('open');
+		}
 	}
 
 	elementsToString() {
@@ -42,7 +48,7 @@ class Window {
 	}
 
 	redraw() {
-		this.clear();
+		// this.clear();
 		this.stdout.write(this.elementsToString(this.body, this));
 	}
 
@@ -60,26 +66,37 @@ class Window {
 		this.body = element;
 		this.focusableElements = getFocusableChildren(element);
 
-		this.focusableElements[0].setFocus();
-		this.tabIndex = 0;
-		this.focusedElement = this.focusableElements[0];
-		this.stdin.setRawMode(true);
-		this.stdin.resume();
-		this.stdin.setEncoding('utf8');
-		this.stdin.on('data', (key) => {
-			if (key === '\u0003') {
-				process.exit(0);
-			}
-			if (key === '\t') {
-				this.onChangeFocus();
-				this.redraw();
-				return;
-			}
-			this.focusedElement.sendEvent({
-				type: 'key',
-				key
+		if (this.focusableElements.length) {
+			this.focusableElements[0].setFocus();
+			this.tabIndex = 0;
+			[this.focusedElement] = this.focusableElements;
+			this.stdin.setRawMode(true);
+			this.stdin.resume();
+			this.stdin.setEncoding('utf8');
+			this.stdin.on('data', (key) => {
+				if (key === '\u0003') {
+					process.exit(0);
+				}
+				if (key === '\t') {
+					this.onChangeFocus();
+					this.redraw();
+					return;
+				}
+				console.info(key.charCodeAt(0));
+				if (
+					(key.charCodeAt(0) >= 32 && key.charCodeAt(0) <= 126)
+				) {
+					this.focusedElement.sendEvent({
+						type: 'key',
+						key
+					});
+				} else if (key.charCodeAt(0) === 8 || key.charCodeAt(0) === 127) {
+					this.focusedElement.sendEvent({
+						type: 'backspace'
+					});
+				}
 			});
-		});
+		}
 
 		this.stdout.on('resize', () => {
 			this.redraw();
