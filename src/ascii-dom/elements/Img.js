@@ -16,7 +16,7 @@ class Img extends Element {
 		// TODO maybe use asciify ?
 
 		window.addPromiseToLoad(new Promise((resolve, reject) => {
-			console.info(style.width, parent.width);
+			// console.info(style.width, parent.width);
 			// The path can be either a local path or an url
 			imageToAscii(src, {
 				size: {

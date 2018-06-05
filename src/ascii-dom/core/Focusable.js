@@ -5,14 +5,18 @@ class Focusable extends Element {
 		this.hasFocus = true;
 		const { onFocus } = this.props;
 		if (onFocus) {
-			onFocus();
+			onFocus({
+				target: this
+			});
 		}
 	}
 	blur() {
 		this.hasFocus = false;
 		const { onBlur } = this.props;
 		if (onBlur) {
-			onBlur();
+			onBlur({
+				target: this
+			});
 		}
 	}
 

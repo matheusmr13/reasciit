@@ -43,6 +43,10 @@ class Element {
 		};
 		this.width = this.props.style.width || 0;
 		this.height = 0;
+
+		if (this.props.ref) {
+			this.props.ref(this);
+		}
 	}
 
 	render(window, parent) {

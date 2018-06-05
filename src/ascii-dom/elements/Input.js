@@ -18,7 +18,9 @@ class Input extends Focusable {
 
 			const { onChange } = this.props;
 			if (onChange) {
-				onChange();
+				onChange({
+					target: this
+				});
 			}
 		} else if (event.type === 'backspace') {
 			this.value = this.value.substring(0, this.value.length - 1);

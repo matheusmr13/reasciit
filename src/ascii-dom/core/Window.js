@@ -29,7 +29,7 @@ class Window {
 		this.heigth = this.stdout.rows;
 
 		if (opts.openDevTools) {
-			console.info('open');
+			// console.info('open');
 		}
 	}
 
@@ -43,12 +43,13 @@ class Window {
 	}
 
 	clear() {
-		this.stdout.write('\x1b[H\x1b[J');
+		// this.stdout.write('\x1B[2J\x1B[0f');
+		console.clear();
 		return this;
 	}
 
 	redraw() {
-		// this.clear();
+		this.clear();
 		this.stdout.write(this.elementsToString(this.body, this));
 	}
 
