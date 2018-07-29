@@ -1,4 +1,3 @@
-import { spawn } from 'child_process';
 import Focusable from 'ascii-dom/core/Focusable';
 import Element from 'ascii-dom/core/Element';
 import DevTools from './DevTools';

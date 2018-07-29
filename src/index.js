@@ -1,5 +1,4 @@
-const Reasciit = require('ascii-dom');
+import Reasciit from './reasciit';
 
-module.exports = {
-	default: Reasciit
-};
+console.info('src/index: ', Reasciit);
+export default Reasciit;

@@ -1,4 +1,9 @@
-const Reasciit = require('reasciit');
+import Reasciit from './../../build';
+
+// const Reasciit = require('../../src').default;
+
+console.info(require('./../../build'));
+console.info(Reasciit);
 
 const template = (order) => {
 	const {

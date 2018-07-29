@@ -1,5 +1,7 @@
-import Reasciit from 'reasciit';
+import Reasciit from './../../build';
 import jsxTemplate from './jsxExample';
+
+console.info('defaulthue :', Reasciit);
 
 const order = {
 	id: '1234',
