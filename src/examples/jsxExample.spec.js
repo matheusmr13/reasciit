@@ -1,8 +1,6 @@
 import Reasciit from './../../build';
 import jsxTemplate from './jsxExample';
 
-console.info('defaulthue :', Reasciit);
-
 const order = {
 	id: '1234',
 	restaurantName: 'My cool restaurant with big name that occupy two lines',

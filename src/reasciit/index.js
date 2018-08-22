@@ -28,7 +28,6 @@ class Reasciit {
 	}
 
 	static renderToString(element, window, opts = {}) {
-		console.info(element);
 		if (!(element instanceof Element) && !(element instanceof Component)) {
 			throw new Error('You must pass an element to render');
 		}

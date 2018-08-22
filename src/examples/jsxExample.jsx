@@ -2,9 +2,6 @@ import Reasciit from './../../build';
 
 // const Reasciit = require('../../src').default;
 
-console.info(require('./../../build'));
-console.info(Reasciit);
-
 const template = (order) => {
 	const {
 		id,
@@ -58,7 +55,7 @@ const template = (order) => {
 			</div>
 			{ ...itemsToRender }
 			<div>
-				<div style={{ display: 'inline-block', width: 9 }}> </div>
+				<div style={{ display: 'inline-block', width: 9 }} />
 				<div style={{ display: 'inline-block', width: 31 }}>
 					<div>
 						<div style={{ display: 'inline-block', width: 22 }}>Parcial:</div>

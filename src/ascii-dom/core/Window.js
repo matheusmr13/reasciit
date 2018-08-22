@@ -82,7 +82,6 @@ class Window {
 					this.redraw();
 					return;
 				}
-				console.info(key.charCodeAt(0));
 				if (
 					(key.charCodeAt(0) >= 32 && key.charCodeAt(0) <= 126)
 				) {
